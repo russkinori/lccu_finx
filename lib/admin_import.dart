@@ -302,8 +302,8 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
                   error =
                       'No guardian user found with email "$guEmail" and no guardian_first_name/guardian_last_name provided to create one.';
                 } else {
-                  // Build guardian create request
-                  final guPassword = (r['guardian_password'] ?? '').trim();
+                  // Build guardian create request — password is intentionally
+                  // omitted; Supabase will auto-generate a secure one server-side.
                   final guMobile =
                       (r['guardian_mobile'] ?? r['guardian_phone'] ?? '')
                           .trim();
@@ -312,7 +312,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
                   try {
                     final gReq = CreateUserRequest(
                       email: guEmail,
-                      password: guPassword.isEmpty ? null : guPassword,
+                      password: null,
                       firstName: guFirst,
                       lastName: guLast,
                       role: AppRole.guardian,
@@ -504,7 +504,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
         'guardian_last_name',
         'guardian_mobile',
         'guardian_address',
-        'guardian_password',
         'credit_union_id',
         'credit_union',
         'acc_number',
@@ -537,7 +536,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           'Doe',
           '555-0100',
           '123 Main St',
-          'parentpass',
           '',
           '',
           'STU001',

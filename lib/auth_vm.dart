@@ -198,7 +198,7 @@ class AuthVm extends ChangeNotifier {
       notifyListeners();
     } catch (_) {}
     try {
-      await _client.auth.signOut(scope: SignOutScope.local);
+      await _client.auth.signOut(); // global scope — invalidates refresh token server-side
     } catch (_) {
       // ignore errors; the onAuthStateChange listener will handle final state
     }

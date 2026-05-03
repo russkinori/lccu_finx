@@ -29,6 +29,7 @@ import 'password_reset.dart';
 import 'settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'app_logger.dart';
 
 class AuthGate extends StatefulWidget {
@@ -46,6 +47,37 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
+    // Root / jailbreak warning (non-blocking — user can dismiss and continue).
+    if (!kIsWeb) {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        try {
+          final compromised = await FlutterJailbreakDetection.jailbroken;
+          if (compromised && mounted) {
+            showDialog<void>(
+              context: context,
+              barrierDismissible: false,
+              builder: (_) => AlertDialog(
+                title: const Text('Security Warning'),
+                content: const Text(
+                  'This device appears to be rooted or jailbroken.\n\n'
+                  'Running financial apps on a modified device may expose your '
+                  'account data to other apps. We recommend using a standard, '
+                  'unmodified device.',
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    child: const Text('I Understand, Continue'),
+                  ),
+                ],
+              ),
+            );
+          }
+        } catch (_) {
+          // Detection unavailable on this platform; proceed normally.
+        }
+      });
+    }
     // Listen for auth state changes (including password reset deep links)
     _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
       final event = data.event;

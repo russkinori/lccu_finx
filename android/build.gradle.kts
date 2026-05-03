@@ -24,3 +24,13 @@ tasks.register<Delete>("clean") {
     description = "Deletes the build directory."
     delete(rootProject.layout.buildDirectory)
 }
+
+subprojects {
+    plugins.withId("java") {
+        extensions.configure<JavaPluginExtension> {
+            toolchain {
+                languageVersion.set(JavaLanguageVersion.of(17))
+            }
+        }
+    }
+}

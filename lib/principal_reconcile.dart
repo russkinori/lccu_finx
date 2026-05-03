@@ -4,6 +4,7 @@
 // Shows teacher collections for the previous week and allows principal to
 // review physical cash on-site and submit deposit batch to teller
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -65,17 +66,17 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
     });
 
     try {
-      // DEBUG
-      debugPrint('[RECON] _loadCollections: schoolId=${widget.schoolId} weekStart=$_selectedWeekStart');
+      if (kDebugMode) debugPrint('[RECON] _loadCollections: schoolId=${widget.schoolId} weekStart=$_selectedWeekStart');
       final collections =
           await widget.repo.getTeacherCollectionsForReconciliation(
         schoolId: widget.schoolId,
         weekStart: _selectedWeekStart!,
       );
-      // DEBUG
-      debugPrint('[RECON] _loadCollections: got ${collections.length} rows');
-      for (final c in collections) {
-        debugPrint('[RECON]   teacher=${c.teacherId} weekStart=${c.weekStart} remaining=${c.remainingAmount}');
+      if (kDebugMode) {
+        debugPrint('[RECON] _loadCollections: got ${collections.length} rows');
+        for (final c in collections) {
+          debugPrint('[RECON]   teacher=${c.teacherId} weekStart=${c.weekStart} remaining=${c.remainingAmount}');
+        }
       }
 
       if (mounted) {
@@ -86,8 +87,10 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
       }
     } catch (e, st) {
       // DEBUG
-      debugPrint('[RECON] _loadCollections ERROR: $e');
-      debugPrint('[RECON] stack: $st');
+      if (kDebugMode) {
+        debugPrint('[RECON] _loadCollections ERROR: $e');
+        debugPrint('[RECON] stack: $st');
+      }
       if (mounted) {
         setState(() {
           _error = friendlyErrorMessage(e);
@@ -220,8 +223,7 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
         ? _collections!.first.weekStart
         : _selectedWeekStart!;
 
-    // DEBUG
-    debugPrint('[RECON] submitDepositBatch: schoolId=${widget.schoolId} batchWeekStart=$batchWeekStart selectedWeekStart=$_selectedWeekStart');
+    if (kDebugMode) debugPrint('[RECON] submitDepositBatch: schoolId=${widget.schoolId} batchWeekStart=$batchWeekStart selectedWeekStart=$_selectedWeekStart');
     try {
       final result = await widget.repo.submitDepositBatch(
         schoolId: widget.schoolId,
@@ -230,8 +232,7 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
             ? null
             : _noteController.text.trim(),
       );
-      // DEBUG
-      debugPrint('[RECON] submitDepositBatch result: "$result"');
+      if (kDebugMode) debugPrint('[RECON] submitDepositBatch result: "$result"');
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -243,9 +244,10 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
         Navigator.pop(context); // Return to previous screen
       }
     } catch (e, st) {
-      // DEBUG
-      debugPrint('[RECON] submitDepositBatch ERROR: $e');
-      debugPrint('[RECON] stack: $st');
+      if (kDebugMode) {
+        debugPrint('[RECON] submitDepositBatch ERROR: $e');
+        debugPrint('[RECON] stack: $st');
+      }
       if (mounted) {
         setState(() => _loading = false);
         ScaffoldMessenger.of(context).showSnackBar(

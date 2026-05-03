@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import 'utils/download_helper.dart' as dl;
@@ -527,11 +527,9 @@ class _AdminReportState extends State<AdminReport> {
     setState(() => _loadingClasses = true);
     final vm = AdminScope.of(context, listen: false);
     try {
-      // DEBUG
-      debugPrint('[REPORT] _loadClasses: schoolId=$schoolId');
+      if (kDebugMode) debugPrint('[REPORT] _loadClasses: schoolId=$schoolId');
       final classes = await vm.classesForSchool(schoolId);
-      // DEBUG
-      debugPrint('[REPORT] _loadClasses: got ${classes.length} classes');
+      if (kDebugMode) debugPrint('[REPORT] _loadClasses: got ${classes.length} classes');
       if (!mounted) return;
       setState(() {
         _classOptions = classes;
@@ -540,9 +538,10 @@ class _AdminReportState extends State<AdminReport> {
         }
       });
     } catch (e, st) {
-      // DEBUG
-      debugPrint('[REPORT] _loadClasses ERROR: $e');
-      debugPrint('[REPORT] stack: $st');
+      if (kDebugMode) {
+        debugPrint('[REPORT] _loadClasses ERROR: $e');
+        debugPrint('[REPORT] stack: $st');
+      }
     } finally {
       if (mounted) {
         setState(() => _loadingClasses = false);
@@ -597,21 +596,22 @@ class _AdminReportState extends State<AdminReport> {
     });
 
     try {
-      // DEBUG
-      debugPrint('[REPORT] _generatePreview: type=$_reportType selectedType=$_selectedType schoolId=$_schoolId classId=$_classId from=$_fromDate to=$_toDate');
+      if (kDebugMode) debugPrint('[REPORT] _generatePreview: type=$_reportType selectedType=$_selectedType schoolId=$_schoolId classId=$_classId from=$_fromDate to=$_toDate');
       final rows = await _fetchReportRows(vm);
-      // DEBUG
-      debugPrint('[REPORT] _generatePreview: got ${rows.length} rows');
-      if (rows.isNotEmpty) debugPrint('[REPORT] first row keys: ${rows.first.keys.toList()}');
+      if (kDebugMode) {
+        debugPrint('[REPORT] _generatePreview: got ${rows.length} rows');
+        if (rows.isNotEmpty) debugPrint('[REPORT] first row keys: ${rows.first.keys.toList()}');
+      }
       if (!mounted) return;
       setState(() {
         _previewData = rows;
         _loadingPreview = false;
       });
     } catch (e, st) {
-      // DEBUG
-      debugPrint('[REPORT] _generatePreview ERROR: $e');
-      debugPrint('[REPORT] stack: $st');
+      if (kDebugMode) {
+        debugPrint('[REPORT] _generatePreview ERROR: $e');
+        debugPrint('[REPORT] stack: $st');
+      }
       if (!mounted) return;
       setState(() {
         _previewError = friendlyActionError('Failed to generate preview.', e);
@@ -1097,8 +1097,7 @@ class _AdminReportState extends State<AdminReport> {
 
     // Use cu_dep_event table for school-level deposit reports (school to credit union)
     if (_reportType == 'all_schools' || _reportType == 'school_deposits') {
-      // DEBUG
-      debugPrint('[REPORT] fetchSchoolDepositsReport: from=$from to=$to schoolId=$_schoolId type=$_selectedType');
+      if (kDebugMode) debugPrint('[REPORT] fetchSchoolDepositsReport: from=$from to=$to schoolId=$_schoolId type=$_selectedType');
       final rows = await vm.repo.fetchSchoolDepositsReport(
         from: from,
         to: to,
@@ -1106,14 +1105,12 @@ class _AdminReportState extends State<AdminReport> {
         type: _selectedType,
         limit: 5000,
       );
-      // DEBUG
-      debugPrint('[REPORT] fetchSchoolDepositsReport: ${rows.length} rows returned');
+      if (kDebugMode) debugPrint('[REPORT] fetchSchoolDepositsReport: ${rows.length} rows returned');
       return rows;
     }
 
     // Use admin_transaction_report RPC for student-level activity (students to school)
-    // DEBUG
-    debugPrint('[REPORT] fetchTransactionReport: from=$from to=$to schoolId=$_schoolId classId=$_classId type=$_selectedType teacher="${_teacherController.text.trim()}" student="${_studentController.text.trim()}"');
+    if (kDebugMode) debugPrint('[REPORT] fetchTransactionReport: from=$from to=$to schoolId=$_schoolId classId=$_classId type=$_selectedType teacher="${_teacherController.text.trim()}" student="${_studentController.text.trim()}"');
     final rows = await vm.repo.fetchTransactionReport(
       from: from,
       to: to,
@@ -1128,8 +1125,7 @@ class _AdminReportState extends State<AdminReport> {
       type: _selectedType,
       limit: 5000,
     );
-    // DEBUG
-    debugPrint('[REPORT] fetchTransactionReport: ${rows.length} rows returned');
+    if (kDebugMode) debugPrint('[REPORT] fetchTransactionReport: ${rows.length} rows returned');
     return rows;
   }
 

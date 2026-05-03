@@ -27,8 +27,11 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             
-            <!-- Deep link for password reset -->
-            <intent-filter android:label="flutter_deep_linking">
+            <!-- Deep link for password reset.
+                 android:autoVerify="true" prepares for Android App Links (HTTPS) verification.
+                 When assetlinks.json is hosted at /.well-known/assetlinks.json on the redirect
+                 domain, Android will verify ownership and prevent URI scheme hijacking. -->
+            <intent-filter android:label="flutter_deep_linking" android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
