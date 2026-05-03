@@ -1,8 +1,8 @@
 # LCCU FinX
 
-**Version 1.0.0+1** · Flutter mobile & web app for the Laborie Co-operative Credit Union (LCCU).
+**Version 0.0.1** · Flutter mobile & web app for the Laborie Co-operative Credit Union (LCCU).
 
-The app serves six distinct user roles — Admin, Principal, Teacher, Teller, Student, and Guardian — each with a tailored interface. It integrates with [Supabase](https://supabase.com) for authentication, data storage, and real-time updates.
+The app is a financial ledger for schools taking part in the LCCU Scholthrift programme. It serves six distinct user roles — Admin for user management, Principal for school and student record overview, Teacher for student activity recording, Teller for school activity recording, Student for self activity overview, and Guardian for own child(ren) activity overview — each with a tailored interface. It integrates with [Supabase](https://supabase.com) for authentication, data storage, and real-time updates.
 
 ---
 
@@ -13,9 +13,6 @@ The app serves six distinct user roles — Admin, Principal, Teacher, Teller, St
 | Android  | ✅ Production (signed APK/AAB via `android/key.properties`) |
 | iOS      | ✅ Production (Xcode / CocoaPods) |
 | Web      | ✅ Supported (Chrome, sidebar navigation at ≥ 900 px) |
-| macOS    | ✅ Configured |
-| Windows  | ✅ Configured (see [Windows notes](#windows-platform-c-runner)) |
-| Linux    | ✅ Configured |
 
 ---
 
@@ -23,7 +20,7 @@ The app serves six distinct user roles — Admin, Principal, Teacher, Teller, St
 
 **Prerequisites:**
 - Flutter (stable channel) with Dart SDK **^3.9.2**
-- Xcode ≥ 14 for iOS/macOS targets
+- Xcode ≥ 14 for iOS targets
 - Android SDK / NDK for Android targets
 
 ```bash
