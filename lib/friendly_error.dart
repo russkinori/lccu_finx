@@ -44,6 +44,10 @@ String friendlyErrorMessage(
     return 'Your session has expired. Please sign in again.';
   }
 
+  if (lower.contains('hard delete is not allowed')) {
+    return 'This user cannot be permanently deleted because related records exist.';
+  }
+
   if (lower.contains('permission') ||
       lower.contains('not allowed') ||
       lower.contains('not authorized') ||
@@ -78,10 +82,6 @@ String friendlyErrorMessage(
       lower.contains('principal') && lower.contains('not found') ||
       lower.contains('profile') && lower.contains('not found')) {
     return 'Your profile is not fully set up. Please contact an administrator.';
-  }
-
-  if (lower.contains('hard delete is not allowed')) {
-    return 'This user cannot be permanently deleted because related records exist.';
   }
 
   if (lower.contains('format exception') ||
