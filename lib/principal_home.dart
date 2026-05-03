@@ -71,21 +71,7 @@ class _PrincipalHomeState extends State<PrincipalHome> {
 
     return Column(
       children: [
-        const SizedBox(height: 8),
-        const Center(
-          child: Text(
-            'WELCOME',
-            style: TextStyle(letterSpacing: 1.2, color: Colors.black54),
-          ),
-        ),
-        const SizedBox(height: 4),
-        Center(
-          child: Text(
-            vm.principalName,
-            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-          ),
-        ),
-        const SizedBox(height: 16),
+        WelcomeHeader(name: vm.principalName, bottomSpacing: 16),
 
         // Account Balance pill (teacher_dash style)
         PillValueRow(

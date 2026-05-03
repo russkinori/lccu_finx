@@ -79,12 +79,7 @@ class AuthVm extends ChangeNotifier {
     notifyListeners();
 
     try {
-      if (kDebugMode) {
-        // Helpful runtime trace when debugging role resolution hangs
-        // (visible in debug console / device logs).
-        // Do NOT log sensitive tokens or PII.
-        appLog('AuthVm: resolving roles for current user');
-      }
+      appLog('AuthVm: resolving roles for current user');
       // Protect against the role lookup hanging indefinitely by using a timeout.
       // If the backend is slow/unreachable, we'll treat it as an error and sign out
       // so the UI doesn't remain stuck in the signingIn phase.
@@ -152,9 +147,7 @@ class AuthVm extends ChangeNotifier {
       // Ensure we clear any partially-authenticated state so the app returns to
       // the signed out/login UI instead of remaining stuck in signingIn.
       try {
-        if (kDebugMode) {
-          appLog('AuthVm: signing out due to role lookup failure: $e');
-        }
+        appLog('AuthVm: signing out due to role lookup failure: $e');
         await _client.auth.signOut();
       } catch (_) {}
       _phase = AuthPhase.signedOut;
@@ -213,22 +206,16 @@ class AuthVm extends ChangeNotifier {
         email,
         redirectTo: 'io.supabase.lccu_finx://reset-password',
       );
-      if (kDebugMode) {
-        appLog('AuthVm: password reset email sent');
-      }
+      appLog('AuthVm: password reset email sent');
       return true;
     } on AuthException catch (e) {
       _errorMessage = e.message;
-      if (kDebugMode) {
-        appLog('AuthVm: Password reset error: ${e.message}');
-      }
+      appLog('AuthVm: Password reset error: ${e.message}');
       notifyListeners();
       return false;
     } catch (e) {
       _errorMessage = friendlyActionError('Failed to send reset email.', e);
-      if (kDebugMode) {
-        appLog('AuthVm: Password reset error: $e');
-      }
+      appLog('AuthVm: Password reset error: $e');
       notifyListeners();
       return false;
     }
@@ -243,22 +230,16 @@ class AuthVm extends ChangeNotifier {
         shouldCreateUser: false,
         emailRedirectTo: null,
       );
-      if (kDebugMode) {
-        appLog('AuthVm: password reset OTP sent');
-      }
+      appLog('AuthVm: password reset OTP sent');
       return true;
     } on AuthException catch (e) {
       _errorMessage = e.message;
-      if (kDebugMode) {
-        appLog('AuthVm: OTP send error: ${e.message}');
-      }
+      appLog('AuthVm: OTP send error: ${e.message}');
       notifyListeners();
       return false;
     } catch (e) {
       _errorMessage = friendlyActionError('Failed to send verification code.', e);
-      if (kDebugMode) {
-        appLog('AuthVm: OTP send error: $e');
-      }
+      appLog('AuthVm: OTP send error: $e');
       notifyListeners();
       return false;
     }
@@ -281,41 +262,27 @@ class AuthVm extends ChangeNotifier {
 
       if (response.session == null) {
         _errorMessage = 'Invalid or expired OTP';
-        if (kDebugMode) {
-          appLog('AuthVm: OTP verification failed - no session');
-        }
+        appLog('AuthVm: OTP verification failed - no session');
         notifyListeners();
         return false;
       }
 
-      if (kDebugMode) {
-        appLog('AuthVm: OTP verified successfully');
-      }
+      appLog('AuthVm: OTP verified successfully');
 
       // Now update the password
       await _client.auth.updateUser(UserAttributes(password: newPassword));
 
-      if (kDebugMode) {
-        appLog(
-          'AuthVm: Password updated successfully after OTP verification',
-        );
-      }
+      appLog('AuthVm: Password updated successfully after OTP verification');
 
       return true;
     } on AuthException catch (e) {
       _errorMessage = e.message;
-      if (kDebugMode) {
-        appLog(
-          'AuthVm: OTP verification/password update error: ${e.message}',
-        );
-      }
+      appLog('AuthVm: OTP verification/password update error: ${e.message}');
       notifyListeners();
       return false;
     } catch (e) {
       _errorMessage = friendlyActionError('Failed to verify the code or update your password.', e);
-      if (kDebugMode) {
-        appLog('AuthVm: OTP verification error: $e');
-      }
+      appLog('AuthVm: OTP verification error: $e');
       notifyListeners();
       return false;
     }
@@ -326,42 +293,28 @@ class AuthVm extends ChangeNotifier {
   Future<bool> updatePassword(String newPassword) async {
     try {
       final currentUser = _client.auth.currentUser;
-      if (kDebugMode) {
-        appLog(
-          'AuthVm: attempting password update with active session: ${currentUser != null}',
-        );
-      }
+      appLog('AuthVm: attempting password update with active session: ${currentUser != null}');
 
       if (currentUser == null) {
         _errorMessage =
             'Session expired. Please request a new password reset link.';
-        if (kDebugMode) {
-          appLog('AuthVm: No active session for password update');
-        }
+        appLog('AuthVm: No active session for password update');
         notifyListeners();
         return false;
       }
 
       await _client.auth.updateUser(UserAttributes(password: newPassword));
 
-      if (kDebugMode) {
-        appLog('AuthVm: Password updated successfully');
-      }
+      appLog('AuthVm: Password updated successfully');
       return true;
     } on AuthException catch (e) {
       _errorMessage = e.message;
-      if (kDebugMode) {
-        appLog(
-          'AuthVm: Password update error: ${e.message} (code: ${e.statusCode})',
-        );
-      }
+      appLog('AuthVm: Password update error: ${e.message} (code: ${e.statusCode})');
       notifyListeners();
       return false;
     } catch (e) {
       _errorMessage = friendlyActionError('Failed to update password.', e);
-      if (kDebugMode) {
-        appLog('AuthVm: Password update error: $e');
-      }
+      appLog('AuthVm: Password update error: $e');
       notifyListeners();
       return false;
     }

@@ -81,27 +81,19 @@ class _AuthGateState extends State<AuthGate> {
     // Listen for auth state changes (including password reset deep links)
     _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
       final event = data.event;
-      if (kDebugMode) {
-        appLog('AuthGate: Auth event: $event');
-        appLog('AuthGate: Session: ${data.session != null}');
-      }
+      appLog('AuthGate: Auth event: $event');
+      appLog('AuthGate: Session: ${data.session != null}');
 
       if (event == AuthChangeEvent.passwordRecovery) {
         // Check if we have a valid session from the reset link
         if (data.session != null) {
-          if (kDebugMode) {
-            appLog(
-              'AuthGate: Valid password recovery session, navigating to reset page',
-            );
-          }
+          appLog('AuthGate: Valid password recovery session, navigating to reset page');
           // Navigate to reset password page when deep link is clicked
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
           );
         } else {
-          if (kDebugMode) {
-            appLog('AuthGate: Password recovery event but no session');
-          }
+          appLog('AuthGate: Password recovery event but no session');
           // Show error page if no session (token expired or invalid)
           Navigator.of(context).push(
             MaterialPageRoute(
@@ -118,6 +110,13 @@ class _AuthGateState extends State<AuthGate> {
     _authSubscription?.cancel();
     super.dispose();
   }
+
+  Widget _settingsButton(BuildContext ctx) => IconButton(
+    icon: const Icon(Icons.settings),
+    onPressed: () => Navigator.of(ctx).push(
+      MaterialPageRoute(builder: (_) => const SettingsAboutPage()),
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -155,17 +154,7 @@ class _AuthGateState extends State<AuthGate> {
             center: const StudentHome(),
             welcomeText: '',
             appBarActions: [
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  // Use navigatorKey to push route from within MaterialApp
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SettingsAboutPage(),
-                    ),
-                  );
-                },
-              ),
+              _settingsButton(context),
             ],
           ),
         );
@@ -184,16 +173,7 @@ class _AuthGateState extends State<AuthGate> {
             center: const PrincipalHome(),
             welcomeText: '',
             appBarActions: [
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SettingsAboutPage(),
-                    ),
-                  );
-                },
-              ),
+              _settingsButton(context),
             ],
           ),
         );
@@ -219,16 +199,7 @@ class _AuthGateState extends State<AuthGate> {
                     teacherVm.refresh();
                   },
                 ),
-                IconButton(
-                  icon: const Icon(Icons.settings),
-                  onPressed: () {
-                    Navigator.of(ctx).push(
-                      MaterialPageRoute(
-                        builder: (_) => const SettingsAboutPage(),
-                      ),
-                    );
-                  },
-                ),
+                _settingsButton(ctx),
               ],
             ),
           ),
@@ -248,16 +219,7 @@ class _AuthGateState extends State<AuthGate> {
             center: const GuardianHome(),
             welcomeText: '',
             appBarActions: [
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (_) => const SettingsAboutPage(),
-                    ),
-                  );
-                },
-              ),
+              _settingsButton(context),
             ],
           ),
         );

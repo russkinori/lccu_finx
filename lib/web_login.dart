@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'auth_vm.dart';
+import 'app_utils.dart';
 import 'terms_of_use.dart';
 import 'privacy_policy.dart';
 import 'app_constants.dart';
@@ -61,7 +62,7 @@ class _WebLoginState extends State<WebLogin> {
                   onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
                   validator: (v) {
                       if (v == null || v.isEmpty) return 'Required';
-                      if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(v)) {
+                      if (!isValidEmail(v)) {
                         return 'Enter a valid email address';
                       }
                       return null;

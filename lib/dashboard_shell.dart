@@ -1,13 +1,10 @@
 import 'dart:math' as math;
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'auth_vm.dart';
 import 'auth_gate.dart';
 import 'supabase_config.dart';
 import 'admin_repo.dart';
 import 'app_constants.dart';
-// import 'package:provider/provider.dart';
-// import '../../view_models/auth_view_model.dart';
 
 class DashboardShell extends StatefulWidget {
   const DashboardShell({

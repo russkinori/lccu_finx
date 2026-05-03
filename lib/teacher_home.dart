@@ -18,6 +18,7 @@ import 'teacher_repo.dart';
 import 'dashboard_shell.dart';
 import 'app_constants.dart';
 import 'app_utils.dart';
+import 'widgets.dart';
 
 class TeacherHome extends StatefulWidget {
   const TeacherHome({super.key, this.teacherName = 'John Doe'});
@@ -26,9 +27,6 @@ class TeacherHome extends StatefulWidget {
   @override
   State<TeacherHome> createState() => _TeacherHomeState();
 }
-
-// Fixed width used by the blue left "pill" across multiple rows so labels align
-const double _pillLeftWidth = AppDimensions.pillLeftWidth;
 
 class _TeacherHomeState extends State<TeacherHome> {
   String? _selectedClassId;
@@ -55,17 +53,7 @@ class _TeacherHomeState extends State<TeacherHome> {
 
     return Column(
       children: [
-        const SizedBox(height: 8),
-        const Text(
-          'WELCOME',
-          style: TextStyle(letterSpacing: 1.2, color: Colors.black54),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          vm.teacherName,
-          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(height: 14),
+        WelcomeHeader(name: vm.teacherName),
 
         // Funds In-Hand (pill + value on right)
         _PillValueRow(
@@ -191,7 +179,7 @@ class _PillValueRow extends StatelessWidget {
   const _PillValueRow({
     required this.label,
     required this.value,
-    this.leftWidth = _pillLeftWidth,
+    this.leftWidth = AppDimensions.pillLeftWidth,
     TextStyle? labelStyle,
     TextStyle? valueStyle,
   }) : _labelStyle = labelStyle,
@@ -271,7 +259,7 @@ class _PillDropdownId extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: _pillLeftWidth,
+          width: AppDimensions.pillLeftWidth,
           height: 44,
           padding: const EdgeInsets.symmetric(horizontal: 12),
           decoration: const BoxDecoration(

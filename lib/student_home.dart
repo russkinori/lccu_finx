@@ -13,6 +13,7 @@ import 'package:responsive_text_widget/responsive_text_widget.dart';
 import 'student_vm.dart';
 import 'app_constants.dart';
 import 'app_utils.dart';
+import 'widgets.dart';
 
 import 'app_logger.dart';
 import 'friendly_error.dart';
@@ -60,17 +61,7 @@ class StudentHome extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: 8),
-        const Text(
-          'WELCOME',
-          style: TextStyle(letterSpacing: 1.2, color: Colors.black54),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          vm.studentName,
-          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(height: 14),
+        WelcomeHeader(name: vm.studentName),
 
         // Account Balance pill row
         _PillValueRow(label: 'Account Balance', value: formatMoney(balance)),
@@ -386,9 +377,6 @@ class StudentHome extends StatelessWidget {
   }
 }
 
-// Fixed width used by the blue left "pill" across multiple rows so labels align
-const double _pillLeftWidth = AppDimensions.pillLeftWidth;
-
 // ---------- Reusable bits ----------
 
 class _PillValueRow extends StatelessWidget {
@@ -409,7 +397,7 @@ class _PillValueRow extends StatelessWidget {
     return Row(
       children: [
         Container(
-          width: _pillLeftWidth,
+          width: AppDimensions.pillLeftWidth,
           height: 44,
           decoration: const BoxDecoration(
             color: AppColors.primaryBlue,

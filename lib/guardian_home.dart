@@ -17,6 +17,7 @@ import 'dashboard_shell.dart';
 import 'guardian_dash.dart';
 import 'app_constants.dart';
 import 'app_utils.dart';
+import 'widgets.dart';
 import 'friendly_error.dart';
 
 class GuardianHome extends StatefulWidget {
@@ -95,17 +96,7 @@ class _GuardianHomeState extends State<GuardianHome> {
 
     return Column(
       children: [
-        const SizedBox(height: 8),
-        const Text(
-          'WELCOME',
-          style: TextStyle(letterSpacing: 1.2, color: Colors.black54),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          vm.guardianName,
-          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
-        ),
-        const SizedBox(height: 14),
+        WelcomeHeader(name: vm.guardianName),
 
         // ---- Children table ----
         ClipRRect(
