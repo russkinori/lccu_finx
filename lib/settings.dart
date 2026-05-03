@@ -32,14 +32,16 @@ class SettingsAboutPage extends StatelessWidget {
         children: [
           // App Info Section
           _buildSectionHeader('About LCCU FinX'),
-          ListTile(
-            leading: const Icon(
-              Icons.info_outline,
-              color: AppColors.primaryBlue,
+          // Version is visible to admin only — reduces fingerprinting surface for other roles.
+          if (authVm.isAdmin)
+            ListTile(
+              leading: const Icon(
+                Icons.info_outline,
+                color: AppColors.primaryBlue,
+              ),
+              title: const Text('Version'),
+              subtitle: const Text(version),
             ),
-            title: const Text('Version'),
-            subtitle: const Text(version),
-          ),
           ListTile(
             leading: Image.asset(
               AppAssets.lccuLogo,

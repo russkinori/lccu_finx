@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'auth_vm.dart';
@@ -19,10 +20,17 @@ class _WebLoginState extends State<WebLogin> {
   final _password = TextEditingController();
   bool _obscure = true;
 
+  // Brute-force protection
+  int _failedAttempts = 0;
+  int _lockSecondsLeft = 0;
+  DateTime? _lockedUntil;
+  Timer? _lockTimer;
+
   @override
   void dispose() {
     _email.dispose();
     _password.dispose();
+    _lockTimer?.cancel();
     super.dispose();
   }
 
@@ -51,8 +59,13 @@ class _WebLoginState extends State<WebLogin> {
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
-                  validator: (v) =>
-                      (v == null || v.isEmpty) ? 'Required' : null,
+                  validator: (v) {
+                      if (v == null || v.isEmpty) return 'Required';
+                      if (!RegExp(r'^[^@\s]+@[^@\s]+\.[^@\s]+$').hasMatch(v)) {
+                        return 'Enter a valid email address';
+                      }
+                      return null;
+                    },
                   autofillHints: const [AutofillHints.email],
                   decoration: const InputDecoration(
                     hintText: 'Enter your email',
@@ -82,11 +95,20 @@ class _WebLoginState extends State<WebLogin> {
                 ),
               ),
               const SizedBox(height: 22),
+              if (_lockSecondsLeft > 0)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    'Too many failed attempts. Try again in $_lockSecondsLeft seconds.',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: Colors.red, fontSize: 12),
+                  ),
+                ),
               SizedBox(
                 width: double.infinity,
                 height: 44,
                 child: ElevatedButton(
-                  onPressed: signingIn ? null : () => _attemptLogin(),
+                  onPressed: (signingIn || _lockSecondsLeft > 0) ? null : () => _attemptLogin(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _blue,
                     shape: RoundedRectangleBorder(
@@ -172,14 +194,33 @@ class _WebLoginState extends State<WebLogin> {
   }
 
   Future<void> _attemptLogin() async {
-    if (!(_formKey.currentState?.validate() ?? false)) {
-      return;
-    }
+    if (_lockSecondsLeft > 0) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
     final authVm = AuthScope.of(context, listen: false);
     final messenger = ScaffoldMessenger.of(context);
     try {
       await authVm.signIn(_email.text.trim(), _password.text);
+      if (mounted) setState(() { _failedAttempts = 0; _lockSecondsLeft = 0; });
     } catch (e) {
+      if (mounted) {
+        setState(() {
+          _failedAttempts++;
+          if (_failedAttempts >= 5) {
+            _lockSecondsLeft = 30;
+            _lockedUntil = DateTime.now().add(const Duration(seconds: 30));
+            _lockTimer?.cancel();
+            _lockTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+              if (!mounted) { timer.cancel(); return; }
+              final remaining = _lockedUntil!.difference(DateTime.now()).inSeconds;
+              setState(() { _lockSecondsLeft = remaining > 0 ? remaining : 0; });
+              if (_lockSecondsLeft == 0) {
+                timer.cancel();
+                setState(() { _failedAttempts = 0; });
+              }
+            });
+          }
+        });
+      }
       messenger.showSnackBar(SnackBar(content: Text(friendlyErrorMessage(e, fallback: 'Sign in failed. Please check your details and try again.'))));
     }
   }

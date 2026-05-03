@@ -138,9 +138,15 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final password = _passwordController.text;
     final confirm = _confirmPasswordController.text;
 
-    if (password.length < 8) {
+    if (password.length < 8 ||
+        !RegExp(r'[A-Za-z]').hasMatch(password) ||
+        !RegExp(r'[0-9]').hasMatch(password)) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password must be at least 8 characters')),
+        const SnackBar(
+          content: Text(
+            'Password must be at least 8 characters and contain a letter and a number',
+          ),
+        ),
       );
       return;
     }
