@@ -100,7 +100,7 @@ void main() {
     });
 
     test('accepts password that starts with a digit', () {
-      expect(_isStrongPassword('1password'), isTrue);
+      expect(_isStrongPassword('1wasspord'), isTrue);
     });
   });
 

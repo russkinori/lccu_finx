@@ -12,17 +12,20 @@ import 'package:lccu_finx/core/utils/app_logger.dart';
 // login UI is provided by AuthGate when not authenticated
 
 Future<void> main() async {
-  // Initialize and run within the same zone to avoid the "Zone mismatch" warning
+  // Supabase must be initialised before the zone is created so that any
+  // credential/network error surfaces immediately rather than being silently
+  // swallowed by runZonedGuarded's error handler.
+  WidgetsFlutterBinding.ensureInitialized();
+  appLog('main: Flutter binding initialized');
+  // Lock the app to portrait only. This prevents rotation into landscape.
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  await initSupabase();
+  appLog('main: Supabase initialized');
+
   await runZonedGuarded(
     () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      appLog('main: Flutter binding initialized');
-      // Lock the app to portrait only. This prevents rotation into landscape.
-      await SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-      ]);
-      await initSupabase();
-      appLog('main: Supabase initialized');
       final repo = SupabaseAdminRepo(supabase);
       appLog('main: SupabaseAdminRepo created');
       final authVm = AuthVm(client: supabase, adminRepo: repo);

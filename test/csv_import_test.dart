@@ -183,7 +183,7 @@ void main() {
   });
 
   group('Row-level validation', () {
-    Map<String, String> makeValidRow({String role = 'student'}) => {
+    Map<String, String> validRow({String role = 'student'}) => {
       'email': 'x@example.com',
       'first_name': 'Test',
       'last_name': 'User',
@@ -191,31 +191,31 @@ void main() {
     };
 
     test('returns null (valid) for a complete, correctly-typed row', () {
-      expect(_validateRow(makeValidRow()), isNull);
+      expect(_validateRow(validRow()), isNull);
     });
 
     test('returns error when email is missing', () {
-      final row = makeValidRow()..['email'] = '';
+      final row = validRow()..['email'] = '';
       expect(_validateRow(row), contains('email'));
     });
 
     test('returns error when first_name is missing', () {
-      final row = makeValidRow()..['first_name'] = '';
+      final row = validRow()..['first_name'] = '';
       expect(_validateRow(row), contains('first_name'));
     });
 
     test('returns error when last_name is missing', () {
-      final row = makeValidRow()..['last_name'] = '';
+      final row = validRow()..['last_name'] = '';
       expect(_validateRow(row), contains('last_name'));
     });
 
     test('returns error when role is missing', () {
-      final row = makeValidRow()..['role'] = '';
+      final row = validRow()..['role'] = '';
       expect(_validateRow(row), contains('role'));
     });
 
     test('returns error for an invalid role value', () {
-      final row = makeValidRow(role: 'cashier');
+      final row = validRow(role: 'cashier');
       final error = _validateRow(row);
       expect(error, isNotNull);
       expect(error, contains('cashier'));
@@ -223,7 +223,7 @@ void main() {
 
     test('accepts all valid AppRole values', () {
       for (final role in AppRole.values) {
-        final row = makeValidRow(role: role.label.toLowerCase());
+        final row = validRow(role: role.label.toLowerCase());
         expect(_validateRow(row), isNull, reason: 'role: ${role.label}');
       }
     });
