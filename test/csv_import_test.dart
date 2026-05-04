@@ -7,7 +7,7 @@
 
 import 'package:csv/csv.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lccu_finx/roles.dart';
+import 'package:lccu_finx/app/roles.dart';
 
 // ---------------------------------------------------------------------------
 // Header + row parsing (mirrors _parseCsvText)

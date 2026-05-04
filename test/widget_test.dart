@@ -1,6 +1,6 @@
 // Integration tests for LCCU FinX app
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lccu_finx/roles.dart';
+import 'package:lccu_finx/app/roles.dart';
 
 void main() {
   group('App Integration Tests', () {

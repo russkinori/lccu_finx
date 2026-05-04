@@ -73,7 +73,7 @@ void main() {
     });
 
     test('current-user role resolution does not require admin RPCs', () {
-      final file = File('lib/admin_repo.dart');
+      final file = File('lib/features/admin/data/admin_repo.dart');
       expect(file.existsSync(), isTrue);
 
       final contents = file.readAsStringSync();

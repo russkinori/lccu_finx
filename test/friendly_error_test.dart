@@ -5,7 +5,7 @@
 // to end users, so every branch should have at least one test.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lccu_finx/friendly_error.dart';
+import 'package:lccu_finx/core/widgets/friendly_error.dart';
 
 void main() {
   group('friendlyErrorMessage', () {

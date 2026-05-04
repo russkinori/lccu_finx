@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lccu_finx/dashboard_shell.dart';
-import 'package:lccu_finx/auth_vm.dart';
-import 'package:lccu_finx/admin_repo.dart';
+import 'package:lccu_finx/features/admin/view/dashboard_shell.dart';
+import 'package:lccu_finx/features/auth/viewmodel/auth_vm.dart';
+import 'package:lccu_finx/features/admin/data/admin_repo.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Mock classes for testing

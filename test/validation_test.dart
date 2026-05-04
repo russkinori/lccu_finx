@@ -5,7 +5,7 @@
 // in production so that regressions are caught immediately.
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lccu_finx/roles.dart';
+import 'package:lccu_finx/app/roles.dart';
 
 // ── Email validator ────────────────────────────────────────────────────────
 // Pattern used in login_page.dart and web_login.dart
