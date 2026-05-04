@@ -30,7 +30,7 @@ LCCU FinX gives credit union tellers a real-time view of all school accounts, pe
 
 ## Navigation
 
-The teller interface uses a **drawer menu** accessible via the hamburger icon at the top-left. Menu items:
+The teller interface uses a **drawer menu** accessible via the hamburger icon at the top-left on mobile. Menu items:
 
 | Menu Item | Description |
 |---|---|
@@ -53,7 +53,7 @@ The home screen lists every school with four columns:
 
 > Any non-zero **Disparity** should be investigated before confirming.
 
-Tap any school row to open that school's **Dashboard**.
+Tap any school name to open that school's **Dashboard**.
 
 ---
 
@@ -67,9 +67,10 @@ When a principal submits a deposit batch it appears as a **Pending Deposit** on 
 2. The **Teller Dashboard** opens showing:
    - School name and current account balance
    - The pending deposit amount
+   - A **Depositor** drop-dowwn menu
    - A **Funds Received** input field
-   - A **Notes** field
-   - A **Batch** selector (links to a specific deposit week)
+   - A **Notes** input field
+   - A **Batch** selector (links to a specific week's collection)
 3. Count the physical cash received.
 4. Enter the exact amount in **Funds Received**.
    - If it matches the pending amount the **Discrepancy** will be **$0.00**.
@@ -77,6 +78,8 @@ When a principal submits a deposit batch it appears as a **Pending Deposit** on 
 5. Select the correct **Batch** from the dropdown.
 6. Add any relevant **notes** (e.g. "Received $255.00, envelope slightly short — spoke to Principal").
 7. Tap **Confirm Deposit**.
+8. Clarify the amount in the pop up window.
+9. Tap confirm.
 
 The school's account balance is updated immediately and the principal's Deposited Funds figure reflects the confirmation.
 
@@ -91,12 +94,14 @@ If the funds received differ from the pending amount:
 
 ## Dashboard — Processing a Payout (Withdrawal)
 
-When a student's approved withdrawal request is ready for cash disbursement the school's dashboard shows a **Payout** section.
+When a school's approved withdrawal request is made by the school's representative, you will record the cash disbursement the school's **Withdrawal** section.
 
 1. Review the payout request details (amount, requestor, requesting role).
 2. Count and set aside the cash amount.
 3. Enter the **Payout Amount** and an optional **note**.
-4. Tap **Record Payout**.
+4. Tap **Record Withdrawal**.
+5. Clarify the amount in the pop up window.
+6. Tap confirm. 
 
 The payout is logged against the school's account and reduces the balance accordingly.
 
@@ -155,13 +160,13 @@ The export contains:
 
 ## Settings
 
-Tap **Settings** (top-right) to view your account details, read legal documents, or sign out.
+Tap **Settings** (top-right) to view your account details on mobile, read legal documents, or sign out.
 
 ---
 
 ## Signing Out
 
-**Drawer menu** → **Log out**, or **Settings** → **Sign Out**.
+**Sign Out** or **Drawer menu** → **Log out**, or **Settings** → **Sign Out**.
 
 ---
 
@@ -184,5 +189,5 @@ Tap **Settings** (top-right) to view your account details, read legal documents,
 |---|---|
 | School balance appears incorrect | Check pending deposits; run a report for the period |
 | Principal's submission missing | Ask the principal to check their Reconciliation screen |
-| Discrepancy concerns | Escalate to credit union management with the CSV audit export |
+| Discrepancy concerns | Escalate to System management with the CSV audit export |
 | App access issues | System administrator |
