@@ -253,11 +253,13 @@ class WebShell extends StatelessWidget {
   }
 
   static void _logout(BuildContext context) {
+    final nav = Navigator.of(context, rootNavigator: true);
+    final repo = SupabaseAdminRepo(supabase);
     AuthScope.of(context, listen: false).signOut().whenComplete(() {
       // Clear the whole stack and return directly to the AuthGate (login UI).
-      Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+      nav.pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (_) => AuthGate(adminRepo: SupabaseAdminRepo(supabase)),
+          builder: (_) => AuthGate(adminRepo: repo),
         ),
         (r) => false,
       );

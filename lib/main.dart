@@ -41,7 +41,8 @@ Future<void> main() async {
       appLog('main: runApp called');
     },
     (error, stack) {
-      // Production builds should route this to Sentry, Crashlytics, or equivalent.
+      // TODO: integrate a crash reporter (e.g. Sentry.captureException or
+      // FirebaseCrashlytics.instance.recordError) before Play Store release.
       appLogError(error, stack);
     },
   );

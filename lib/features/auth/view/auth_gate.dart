@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:lccu_finx/features/admin/data/admin_repo.dart';
 import 'package:lccu_finx/app/app_router.dart';
@@ -47,7 +48,8 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
-    // Root / jailbreak warning (non-blocking — user can dismiss and continue).
+    // Root / jailbreak check — BLOCKING for this financial application.
+    // The dialog cannot be dismissed; the user must close the app.
     if (!kIsWeb) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         try {
@@ -56,20 +58,23 @@ class _AuthGateState extends State<AuthGate> {
             showDialog<void>(
               context: context,
               barrierDismissible: false,
-              builder: (_) => AlertDialog(
-                title: const Text('Security Warning'),
-                content: const Text(
-                  'This device appears to be rooted or jailbroken.\n\n'
-                  'Running financial apps on a modified device may expose your '
-                  'account data to other apps. We recommend using a standard, '
-                  'unmodified device.',
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    child: const Text('I Understand, Continue'),
+              builder: (_) => PopScope(
+                canPop: false,
+                child: AlertDialog(
+                  title: const Text('Security Warning'),
+                  content: const Text(
+                    'This device appears to be rooted or jailbroken.\n\n'
+                    'LCCU FinX cannot run on a modified device. '
+                    'Please use a standard, unmodified device to protect '
+                    'your financial data.',
                   ),
-                ],
+                  actions: [
+                    TextButton(
+                      onPressed: () => SystemNavigator.pop(),
+                      child: const Text('Close App'),
+                    ),
+                  ],
+                ),
               ),
             );
           }
@@ -89,12 +94,14 @@ class _AuthGateState extends State<AuthGate> {
         if (data.session != null) {
           appLog('AuthGate: Valid password recovery session, navigating to reset page');
           // Navigate to reset password page when deep link is clicked
+          if (!mounted) return;
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
           );
         } else {
           appLog('AuthGate: Password recovery event but no session');
           // Show error page if no session (token expired or invalid)
+          if (!mounted) return;
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const PasswordResetErrorPage(),

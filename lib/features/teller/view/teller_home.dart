@@ -180,7 +180,7 @@ class _TellerHomeState extends State<TellerHome> {
                                   return InkWell(
                                     onTap: () async {
                                       await vm.selectSchool(s.schoolId);
-                                      if (!mounted) return;
+                                      if (!context.mounted) return;
                                       Navigator.of(context).pushNamed('/teller/dash');
                                     },
                                     child: Padding(

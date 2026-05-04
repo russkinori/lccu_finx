@@ -217,9 +217,8 @@ class _PrincipalHomeState extends State<PrincipalHome> {
     final history = await repo.getSchoolDepositHistory(_schoolId!);
 
     if (!mounted) return;
-
     showDialog(
-      context: context,
+      context: context, // ignore: use_build_context_synchronously
       builder: (context) => Dialog(
         backgroundColor: Colors.white,
         child: ConstrainedBox(
@@ -302,7 +301,7 @@ class _PrincipalHomeState extends State<PrincipalHome> {
     if (!mounted) return;
 
     showDialog(
-      context: context,
+      context: context, // ignore: use_build_context_synchronously
       builder: (context) => Dialog(
         backgroundColor: Colors.white,
         child: ConstrainedBox(

@@ -1,5 +1,5 @@
 name: lccu_finx
-description: "A new Flutter project."
+description: "LCCU FinX — secure school savings management for La Borie Credit Union."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -14,7 +14,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  supabase_flutter: ^2.0.0
+  supabase_flutter: ^2.12.4
   intl: ^0.20.2
   file_picker: ^10.3.3
   csv: ^6.0.0
@@ -38,6 +38,7 @@ dev_dependencies:
   rename: ^3.1.0
   mockito: ^5.4.4
   build_runner: ^2.4.13
+  flutter_lints: ^6.0.0
 
 flutter_launcher_icons:
   android: true
@@ -55,12 +56,6 @@ flutter_launcher_icons:
 #     background_color: "#hexcode"
 #     theme_color: "#hexcode"
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
-  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
