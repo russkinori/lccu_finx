@@ -3,5 +3,5 @@
         "connectionId": "russkinori",
         "projectKey": "russkinori_lccu_finx"
     },
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "automatic"
 }

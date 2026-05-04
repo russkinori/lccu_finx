@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lccu_finx/auth_vm.dart';
-import 'package:lccu_finx/admin_repo.dart';
-import 'package:lccu_finx/app_logger.dart';
-import 'package:lccu_finx/roles.dart';
+import 'package:lccu_finx/features/auth/viewmodel/auth_vm.dart';
+import 'package:lccu_finx/features/admin/data/admin_repo.dart';
+import 'package:lccu_finx/core/utils/app_logger.dart';
+import 'package:lccu_finx/app/roles.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Simple mock admin repo for testing role resolution logic

@@ -7,7 +7,7 @@ String _read(String path) => File(path).readAsStringSync();
 void main() {
   group('Repository RPC contract checks', () {
     test('student repository uses student RPC boundary', () {
-      final source = _read('lib/student_repo.dart');
+      final source = _read('lib/features/student/data/student_repo.dart');
 
       expect(source, contains("'student_home'"));
       expect(source, contains("'student_transaction_history'"));
@@ -18,7 +18,7 @@ void main() {
     });
 
     test('guardian repository uses guardian RPC boundary', () {
-      final source = _read('lib/guardian_repo.dart');
+      final source = _read('lib/features/guardian/data/guardian_repo.dart');
 
       expect(source, contains("'f_me_guardian'"));
       expect(source, contains("'guardian_children_list'"));
@@ -31,7 +31,7 @@ void main() {
     });
 
     test('teacher repository uses teacher RPC boundary', () {
-      final source = _read('lib/teacher_repo.dart');
+      final source = _read('lib/features/teacher/data/teacher_repo.dart');
 
       const requiredRpcs = [
         'f_me_teacher',
@@ -58,7 +58,7 @@ void main() {
     });
 
     test('teller repository uses teller RPC boundary', () {
-      final source = _read('lib/teller_repo.dart');
+      final source = _read('lib/features/teller/data/teller_repo.dart');
 
       const requiredRpcs = [
         'teller_home_rows',
@@ -82,7 +82,7 @@ void main() {
     });
 
     test('principal repository uses principal RPC boundary', () {
-      final source = _read('lib/principal_repo.dart');
+      final source = _read('lib/features/principal/data/principal_repo.dart');
 
       const requiredRpcs = [
         'current_principal_id',
@@ -108,7 +108,7 @@ void main() {
     });
 
     test('admin repository keeps admin-wide reads behind RPC or Edge Function', () {
-      final source = _read('lib/admin_repo.dart');
+      final source = _read('lib/features/admin/data/admin_repo.dart');
 
       const requiredRpcs = [
         'admin_dashboard_metrics',

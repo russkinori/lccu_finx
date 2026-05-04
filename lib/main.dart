@@ -3,12 +3,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 // Imports kept minimal; AuthGate is referenced from Splash route.
-import 'splash.dart';
-import 'auth_vm.dart';
-import 'admin_repo.dart';
-import 'supabase_config.dart';
-import 'app_theme.dart';
-import 'app_logger.dart';
+import 'package:lccu_finx/core/widgets/splash.dart';
+import 'package:lccu_finx/features/auth/viewmodel/auth_vm.dart';
+import 'package:lccu_finx/features/admin/data/admin_repo.dart';
+import 'package:lccu_finx/app/supabase_config.dart';
+import 'package:lccu_finx/app/app_theme.dart';
+import 'package:lccu_finx/core/utils/app_logger.dart';
 // login UI is provided by AuthGate when not authenticated
 
 Future<void> main() async {
