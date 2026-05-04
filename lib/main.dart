@@ -12,20 +12,17 @@ import 'package:lccu_finx/core/utils/app_logger.dart';
 // login UI is provided by AuthGate when not authenticated
 
 Future<void> main() async {
-  // Supabase must be initialised before the zone is created so that any
-  // credential/network error surfaces immediately rather than being silently
-  // swallowed by runZonedGuarded's error handler.
-  WidgetsFlutterBinding.ensureInitialized();
-  appLog('main: Flutter binding initialized');
-  // Lock the app to portrait only. This prevents rotation into landscape.
-  await SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-  ]);
-  await initSupabase();
-  appLog('main: Supabase initialized');
-
+  // Initialize and run within the same zone to avoid the "Zone mismatch" warning
   await runZonedGuarded(
     () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      appLog('main: Flutter binding initialized');
+      // Lock the app to portrait only. This prevents rotation into landscape.
+      await SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+      await initSupabase();
+      appLog('main: Supabase initialized');
       final repo = SupabaseAdminRepo(supabase);
       appLog('main: SupabaseAdminRepo created');
       final authVm = AuthVm(client: supabase, adminRepo: repo);
@@ -44,8 +41,7 @@ Future<void> main() async {
       appLog('main: runApp called');
     },
     (error, stack) {
-      // TODO: integrate a crash reporter (e.g. Sentry.captureException or
-      // FirebaseCrashlytics.instance.recordError) before Play Store release.
+      // Production builds should route this to Sentry, Crashlytics, or equivalent.
       appLogError(error, stack);
     },
   );

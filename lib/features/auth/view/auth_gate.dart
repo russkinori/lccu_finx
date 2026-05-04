@@ -48,8 +48,7 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
-    // Root / jailbreak check — BLOCKING for this financial application.
-    // The dialog cannot be dismissed; the user must close the app.
+    // Root / jailbreak detection — blocks access on compromised devices.
     if (!kIsWeb) {
       WidgetsBinding.instance.addPostFrameCallback((_) async {
         try {
@@ -61,17 +60,16 @@ class _AuthGateState extends State<AuthGate> {
               builder: (_) => PopScope(
                 canPop: false,
                 child: AlertDialog(
-                  title: const Text('Security Warning'),
+                  title: const Text('Device Not Supported'),
                   content: const Text(
                     'This device appears to be rooted or jailbroken.\n\n'
-                    'LCCU FinX cannot run on a modified device. '
-                    'Please use a standard, unmodified device to protect '
-                    'your financial data.',
+                    'LCCU FinX cannot run on modified devices to protect '
+                    'account data and comply with financial security requirements.',
                   ),
                   actions: [
                     TextButton(
-                      onPressed: () => SystemNavigator.pop(),
-                      child: const Text('Close App'),
+                      onPressed: SystemNavigator.pop,
+                      child: const Text('Exit App'),
                     ),
                   ],
                 ),
@@ -85,6 +83,7 @@ class _AuthGateState extends State<AuthGate> {
     }
     // Listen for auth state changes (including password reset deep links)
     _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
+      if (!mounted) return;
       final event = data.event;
       appLog('AuthGate: Auth event: $event');
       appLog('AuthGate: Session: ${data.session != null}');
@@ -94,14 +93,12 @@ class _AuthGateState extends State<AuthGate> {
         if (data.session != null) {
           appLog('AuthGate: Valid password recovery session, navigating to reset page');
           // Navigate to reset password page when deep link is clicked
-          if (!mounted) return;
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => const ResetPasswordPage()),
           );
         } else {
           appLog('AuthGate: Password recovery event but no session');
           // Show error page if no session (token expired or invalid)
-          if (!mounted) return;
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => const PasswordResetErrorPage(),

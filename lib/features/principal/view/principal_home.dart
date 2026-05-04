@@ -216,9 +216,10 @@ class _PrincipalHomeState extends State<PrincipalHome> {
             as SupabasePrincipalRepository);
     final history = await repo.getSchoolDepositHistory(_schoolId!);
 
-    if (!mounted) return;
+    if (!context.mounted) return;
+
     showDialog(
-      context: context, // ignore: use_build_context_synchronously
+      context: context,
       builder: (context) => Dialog(
         backgroundColor: Colors.white,
         child: ConstrainedBox(
@@ -298,10 +299,10 @@ class _PrincipalHomeState extends State<PrincipalHome> {
       teacherId: teacherId,
     );
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     showDialog(
-      context: context, // ignore: use_build_context_synchronously
+      context: context,
       builder: (context) => Dialog(
         backgroundColor: Colors.white,
         child: ConstrainedBox(
