@@ -183,6 +183,20 @@ Tap **Settings** (top-right) to view your account details on mobile, read legal 
 
 ---
 
+## Data Privacy Responsibilities
+
+As a teller you process school financial data and have visibility of all school accounts and deposits. You are responsible for:
+
+- Keeping your login credentials confidential — do not share your account
+- Only exporting reports through official LCCU reporting channels
+- Not storing exported CSV audit files on personal devices or unencrypted media
+- Escalating any suspected unauthorised access to the system administrator immediately
+- Handling student financial data with the same care as any other personal financial records
+
+Student data in LCCU FinX is used solely for the school savings programme. Audit exports must be stored, transmitted, and disposed of in line with LCCU's data retention policy.
+
+---
+
 ## Getting Help
 
 | Issue | Contact |

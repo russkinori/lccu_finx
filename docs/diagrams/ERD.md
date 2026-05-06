@@ -31,7 +31,6 @@ erDiagram
         string gender
         string title
         string address
-        date date_of_birth
         bool is_active
         timestamp created_at
         timestamp last_sign_in_at

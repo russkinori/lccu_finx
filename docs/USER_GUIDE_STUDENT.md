@@ -95,6 +95,23 @@ Tap the **Settings** icon (top-right of any screen) to:
 Tap the **Sign Out** button at the bottom right of the screen. 
 If you're in **Settings**, scroll to the bottom → tap **Sign Out**.
 
+## Your Privacy
+
+LCCU FinX collects only the information needed to run your savings account:
+
+| What we hold | Why |
+|---|---|
+| Your name and email | Account identification and login |
+| Your school and class | Scoping your account to the right institution |
+| Your account balance and transactions | Running your savings account |
+| Your guardian's name | Linking your account for oversight |
+
+We do **not** collect your date of birth, government ID, location, or any information not listed above.
+
+Your account data is only visible to you, your linked guardian, your teacher (class-level totals), your principal (school-level totals), and authorised LCCU administrators. No one else can see your account.
+
+If you or your guardian want to see a copy of your data, have something corrected, or close your account, contact the school office or LCCU (see Settings → Contact Support).
+
 ---
 
 ## Getting Help

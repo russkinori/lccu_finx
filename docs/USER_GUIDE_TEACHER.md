@@ -128,6 +128,19 @@ Tap the **Sign Out** button in the bottom right of the screen or
 
 ---
 
+## Data Privacy Responsibilities
+
+As a teacher you access student financial data as part of your role. You are responsible for:
+
+- Keeping your login credentials confidential — do not share your account
+- Only accessing data for students in your assigned class
+- Not exporting or sharing student transaction data outside of official school or LCCU reporting channels
+- Reporting any suspected unauthorised access or data issue to your school administrator immediately
+
+Student data in LCCU FinX is used solely for the school savings programme. It is never used for marketing or shared with third parties for commercial purposes.
+
+---
+
 ## Getting Help
 
 | Issue | Contact |

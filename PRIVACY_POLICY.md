@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last Updated: December 9, 2025**
+**Last Updated: May 7, 2026**
 
 ## 1. Introduction
 
@@ -12,7 +12,7 @@ By using the App, you consent to the data practices described in this policy.
 
 ### 2.1 Personal Information
 We collect personal information that you provide directly, including:
-- **Account Information**: Name, email address, phone number, date of birth
+- **Account Information**: Name, email address, phone number
 - **Authentication Data**: Username, password (encrypted), role assignment
 - **Student Information**: Student ID, class assignment, school affiliation
 - **Guardian Information**: Guardian-student relationships, contact details
@@ -31,7 +31,16 @@ We automatically collect certain information when you use the App:
 - Error reports and performance data
 
 ### 2.4 Location Information
-'LCCU FinX does not collect precise device location data. If this changes in the future, we will update this policy and request permission before collecting location data.'
+LCCU FinX does not collect precise device location data. If this changes in the future, we will update this policy and request permission before collecting location data.
+
+### 2.5 Data We Do Not Collect
+We do not collect the following:
+- Date of birth
+- Government-issued identification numbers
+- Biometric data
+- Precise geolocation
+- Behavioural or advertising identifiers
+- Social media profile data
 
 ## 3. How We Use Your Information
 
@@ -133,15 +142,76 @@ You may opt out of:
 
 Note: Opting out of certain data collection may limit App functionality.
 
-## 8. Children's Privacy
+### 7.4 Rights on Behalf of a Minor
+Parents and guardians may exercise any of the rights in Sections 7.1–7.3 on behalf of a minor child. In addition, as detailed in Section 8.7, parents and guardians have the right to object to any processing of student data that is not strictly necessary for the operation of the savings programme. To exercise rights on behalf of a child, contact the Privacy Officer (see Section 12) and provide sufficient information to verify your identity and your relationship to the child.
 
-The App is designed for educational institutions and may be used by minors under the supervision of guardians and educators. We:
-- Collect only necessary information from student accounts
-- Require parental/guardian consent for student accounts
-- Limit access to student information based on role permissions
-- Do not use student data for marketing purposes
+## 8. Children's Privacy and Student Data Protection
 
-Parents/guardians have the right to review, modify, or delete their child's information by contacting LCCU.
+### 8.1 Scope and Age Threshold
+The App is designed for use within educational institutions and is expected to be used by minors (users under 18 years of age) as part of school-based financial literacy programmes. LCCU treats all student accounts as accounts that may belong to minors regardless of whether the actual age of the student is known.
+
+### 8.2 Parental and Guardian Consent
+- Student accounts are provisioned only by authorised LCCU administrators or school principals acting on behalf of the institution.
+- Enrolment in the programme constitutes acknowledgement by the school that parental or guardian consent for participation in the savings programme—including the creation of a digital account—has been obtained in accordance with applicable law and school policy.
+- Parents and guardians may withdraw consent at any time by contacting LCCU (see Section 12). Upon withdrawal, the student account will be deactivated and personal data deleted subject to legal retention obligations.
+
+### 8.3 Student Data — What We Collect and Why
+For student accounts we collect only the minimum data necessary to operate the savings programme:
+
+| Data Field | Purpose |
+|---|---|
+| First name, last name | Account identification and display |
+| Email address | Account authentication and notifications |
+| School and class assignment | Scoping transactions and reports to the correct institution |
+| Guardian linkage | Enabling guardian account oversight |
+| Account balance and transaction history | Core savings programme functionality |
+
+No date of birth, government ID, biometrics, or sensitive personal data is collected for student accounts.
+
+### 8.4 Purpose Limitation — How Student Data Is Used
+Student data is used **solely** for:
+- Operating and maintaining the student savings account
+- Generating transaction records and statements for the student, their guardian, and authorised school staff
+- Enabling guardian oversight of the account
+- Complying with legal and regulatory obligations
+
+Student data is **never** used for:
+- Marketing, advertising, or promotional communications
+- Behavioural profiling or targeted content
+- Sale or sharing with third parties for commercial purposes
+- Any purpose beyond the school savings programme
+
+### 8.5 Access Controls for Student Information
+Access to student data within the App is strictly role-limited:
+- **Students**: view their own account only
+- **Guardians**: view accounts of their linked dependants only
+- **Teachers**: view aggregate class-level transaction data; no access to other classes
+- **Principals**: view school-level data for their institution only
+- **Tellers**: process transactions; no unnecessary access to student profile data
+- **Administrators**: full access for account management and audit purposes, subject to internal access controls
+
+### 8.6 Data Minimisation and Retention for Student Accounts
+- Student account data is retained for the duration of active enrolment plus any mandatory regulatory retention period (minimum 7 years for financial records).
+- Upon a school's request or when a student is no longer enrolled, non-financial personal data (name, email) will be anonymised or deleted; transaction records will be retained only to the extent required by law.
+
+### 8.7 Guardian Rights Regarding Student Data
+Parents and guardians have the right to:
+- **Access**: request a copy of all personal data held for their child
+- **Correction**: request correction of inaccurate or incomplete data
+- **Deletion**: request deletion of their child's account and personal data (subject to legal retention requirements)
+- **Restriction**: request that processing be restricted pending correction or dispute resolution
+- **Objection**: object to any processing not strictly necessary for the savings programme
+
+To exercise these rights, contact the LCCU Privacy Officer (see Section 12). We will respond within 30 days.
+
+### 8.8 Applicable Student Privacy Standards
+In delivering the student savings programme, LCCU applies practices consistent with the following frameworks where applicable to its jurisdiction:
+- **COPPA** (Children's Online Privacy Protection Act) — for users in the United States under 13
+- **FERPA** (Family Educational Rights and Privacy Act) — for student education records
+- **GDPR** and **UK GDPR** — for users in the European Economic Area or United Kingdom, including the principle of data protection by design and by default for children
+- **Local data protection regulations** applicable in the jurisdictions where LCCU operates
+
+Where any of the above standards impose stricter requirements than this policy, those stricter requirements will apply.
 
 ## 9. International Data Transfers
 
@@ -168,9 +238,15 @@ Address: [Physical Address]
 ## 13. Regulatory Compliance
 
 LCCU complies with applicable data protection laws and regulations, including:
-- Local data protection regulations
-- Financial services regulations
+- Local data protection regulations in all jurisdictions where LCCU operates
+- Financial services regulations governing the retention and handling of financial records
 - Educational institution data protection requirements
+- **COPPA** (Children's Online Privacy Protection Act) — governing the collection of personal information from children under 13 in the United States
+- **FERPA** (Family Educational Rights and Privacy Act) — governing the privacy of student education records
+- **GDPR / UK GDPR** — governing data protection by design and by default, including heightened protections for minors
+- **PIPEDA** (Personal Information Protection and Electronic Documents Act) — where applicable for Canadian users
+
+Where student data is involved, LCCU applies the most protective standard available under applicable law, and follows the principle of data protection by design: collecting the minimum data necessary, limiting access to authorised roles, and retaining data only for as long as required.
 
 ## 14. Your Consent
 
@@ -178,4 +254,4 @@ By using LCCU FinX, you acknowledge that you have read and understood this Priva
 
 ---
 
-**Effective Date: December 9, 2025**
+**Effective Date: May 7, 2026**

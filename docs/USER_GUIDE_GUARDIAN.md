@@ -98,6 +98,26 @@ Tap the **Settings** icon (top-right corner) to:
 
 **Settings** → scroll to bottom → **Sign Out**.
 
+## Your Privacy Rights
+
+As a guardian, you have the right to control how your child's data — and your own — is used within LCCU FinX.
+
+**What data we hold about you and your child:**
+- Your name and email (for your account login and guardian linkage)
+- Your child's name, school, class, account balance, and transaction history
+- The guardian-student relationship type (e.g. Mother, Father, Legal Guardian)
+
+**What we do NOT collect:** date of birth, national ID, biometrics, or location data.
+
+**Your rights at any time:**
+- **Access** — request a copy of all data held for you or your child
+- **Correction** — ask us to fix any inaccurate information
+- **Deletion** — request that your child's account be closed and personal data deleted (subject to the 7-year financial record retention requirement)
+- **Withdrawal of consent** — contact LCCU to withdraw your consent to the savings programme; the student account will be deactivated
+
+To exercise any of these rights, contact the school office or the LCCU Privacy Officer:  
+**Email:** privacy@lccufinx.com
+
 ---
 
 ## Getting Help
