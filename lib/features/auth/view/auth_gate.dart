@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import 'package:lccu_finx/features/admin/data/admin_repo.dart';
 import 'package:lccu_finx/app/app_router.dart';
@@ -29,8 +28,6 @@ import 'package:lccu_finx/features/auth/view/reset_password.dart';
 import 'package:lccu_finx/features/auth/view/password_reset.dart';
 import 'package:lccu_finx/features/settings/view/settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_jailbreak_detection/flutter_jailbreak_detection.dart';
 import 'package:lccu_finx/core/utils/app_logger.dart';
 
 class AuthGate extends StatefulWidget {
@@ -48,39 +45,6 @@ class _AuthGateState extends State<AuthGate> {
   @override
   void initState() {
     super.initState();
-    // Root / jailbreak detection — blocks access on compromised devices.
-    if (!kIsWeb) {
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        try {
-          final compromised = await FlutterJailbreakDetection.jailbroken;
-          if (compromised && mounted) {
-            showDialog<void>(
-              context: context,
-              barrierDismissible: false,
-              builder: (_) => PopScope(
-                canPop: false,
-                child: AlertDialog(
-                  title: const Text('Device Not Supported'),
-                  content: const Text(
-                    'This device appears to be rooted or jailbroken.\n\n'
-                    'LCCU FinX cannot run on modified devices to protect '
-                    'account data and comply with financial security requirements.',
-                  ),
-                  actions: [
-                    TextButton(
-                      onPressed: SystemNavigator.pop,
-                      child: const Text('Exit App'),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-        } catch (_) {
-          // Detection unavailable on this platform; proceed normally.
-        }
-      });
-    }
     // Listen for auth state changes (including password reset deep links)
     _authSubscription = supabase.auth.onAuthStateChange.listen((data) {
       if (!mounted) return;

@@ -31,10 +31,7 @@ We automatically collect certain information when you use the App:
 - Error reports and performance data
 
 ### 2.4 Location Information
-We may collect location data if you grant permission, used for:
-- Security verification
-- Fraud prevention
-- Service improvement
+'LCCU FinX does not collect precise device location data. If this changes in the future, we will update this policy and request permission before collecting location data.'
 
 ## 3. How We Use Your Information
 

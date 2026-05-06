@@ -354,6 +354,8 @@ class _PrincipalHomeState extends State<PrincipalHome> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Teacher: ${record.teacherName}'),
+                                if (record.depositDate != null)
+                                  Text('Date: ${formatDate(record.depositDate!)}'),
                                 Text(
                                   'Week: ${formatDate(record.weekStart)} - ${formatDate(record.weekEnd)}',
                                 ),

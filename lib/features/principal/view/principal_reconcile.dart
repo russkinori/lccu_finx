@@ -474,7 +474,7 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
                                               maxLines: 1,
                                               minFontSize: 9,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                                              style: TextStyle(fontWeight: FontWeight.w600, color: Colors.orange.shade700),
                                             ),
                                           ),
                                           const SizedBox(
@@ -483,12 +483,12 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
                                           ),
                                           Expanded(
                                             child: AutoSizeText(
-                                              'Added',
+                                              'Deposit',
                                               textAlign: TextAlign.right,
                                               maxLines: 1,
                                               minFontSize: 9,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                                              style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.green),
                                             ),
                                           ),
                                           const SizedBox(
@@ -502,7 +502,7 @@ class _PrincipalReconcileScreenState extends State<PrincipalReconcileScreen> {
                                               maxLines: 1,
                                               minFontSize: 9,
                                               overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.black),
+                                              style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.blue),
                                             ),
                                           ),
                                         ],
@@ -746,8 +746,8 @@ class _TeacherCollectionRow extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       color: collection.remainingAmount > 0
-                        ? Colors.black
-                        : Colors.grey[800],
+                          ? Colors.blue
+                          : Colors.grey[400],
                     ),
                   ),
                 ),

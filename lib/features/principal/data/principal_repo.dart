@@ -106,12 +106,14 @@ class TeacherDepositRecord {
   final DateTime weekEnd;
   final double amount;
   final String teacherName;
+  final DateTime? depositDate;
 
   const TeacherDepositRecord({
     required this.weekStart,
     required this.weekEnd,
     required this.amount,
     required this.teacherName,
+    this.depositDate,
   });
 }
 
@@ -185,6 +187,9 @@ abstract class PrincipalRepository {
     String schoolId, {
     String? teacherId,
   });
+
+  Future<(double depositDue, double deposited, double difference)>
+  getLastTeacherDepositDetail(String schoolId, {String? teacherId});
 }
 
 class SupabasePrincipalRepository implements PrincipalRepository {
@@ -693,7 +698,36 @@ class SupabasePrincipalRepository implements PrincipalRepository {
         weekEnd: we,
         amount: _asDouble(r['amount']),
         teacherName: (r['teacher_name'] as String?) ?? 'Unknown',
+        depositDate: r['deposit_date'] != null
+            ? DateTime.tryParse(r['deposit_date'] as String)
+            : null,
       );
     }).toList(growable: false);
+  }
+
+  @override
+  Future<(double depositDue, double deposited, double difference)>
+  getLastTeacherDepositDetail(String schoolId, {String? teacherId}) async {
+    try {
+      final rows = await _rpc.list(
+        'principal_last_teacher_deposit_detail',
+        params: {
+          'p_teacher_id': (teacherId == null || teacherId.isEmpty || teacherId == 'ALL')
+              ? null
+              : teacherId,
+        },
+      );
+      if (rows.isNotEmpty) {
+        final r = rows.first;
+        return (
+          _asDouble(r['deposit_due']),
+          _asDouble(r['deposited']),
+          _asDouble(r['difference']),
+        );
+      }
+    } catch (e) {
+      appLog('Warning: last teacher deposit detail unavailable: $e');
+    }
+    return (0.0, 0.0, 0.0);
   }
 }

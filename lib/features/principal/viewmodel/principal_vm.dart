@@ -180,13 +180,13 @@ class PrincipalVm extends ChangeNotifier {
 
       if (_selectedTeacherId != _kAll) {
         final (teacherDepositDue, teacherDeposited, teacherDifference) =
-            await r.getTeacherDepositDetails(schoolId, _selectedTeacherId);
+            await r.getLastTeacherDepositDetail(schoolId, teacherId: _selectedTeacherId);
         _teacherDepositDue = teacherDepositDue;
         _teacherDeposited = teacherDeposited;
         _teacherDifference = teacherDifference;
       } else {
         final (teacherDepositDue, teacherDeposited, teacherDifference) =
-            await r.getAllTeachersDepositDetails(schoolId);
+            await r.getLastTeacherDepositDetail(schoolId);
         _teacherDepositDue = teacherDepositDue;
         _teacherDeposited = teacherDeposited;
         _teacherDifference = teacherDifference;

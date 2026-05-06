@@ -17,7 +17,7 @@ const _kRequired = {'email', 'first_name', 'last_name', 'role'};
 
 /// Returns (rows, error).  error is non-null when parsing fails.
 (List<Map<String, String>>, String?) _parseCsvText(String text) {
-  final table = const CsvToListConverter(eol: '\n').convert(text);
+  final table = Csv().decode(text);
 
   if (table.isEmpty) {
     return ([], 'Empty CSV file.');

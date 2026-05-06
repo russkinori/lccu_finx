@@ -40,11 +40,11 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>LCCU FinX needs access to your camera to allow you to capture photos for documents and receipts. Your privacy is protected according to our privacy policy at https://mylaboriecu.com/lccu-finx/</string>
+	<string>...</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This permission is required by a third-party library used in LCCU FinX. LCCU FinX does not actively use your location nor provide location-based services to enhance your experience. Your privacy is protected according to our privacy policy at https://mylaboriecu.com/lccu-finx/</string>
+	<string>...</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>LCCU FinX needs access to your photo library to allow you to select and upload images for documents and receipts. Your privacy is protected according to our privacy policy at https://mylaboriecu.com/lccu-finx/</string>
+	<string>...</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -75,15 +75,11 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>
