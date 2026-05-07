@@ -1,0 +1,7 @@
+version: 2
+
+# Ignore known test-fixture false positives.
+# These paths contain synthetic/mock values used in unit tests, not real credentials.
+matches-ignore:
+  - name: "test-fixture passwords in validation_test.dart"
+    match: "validation_test.dart"
