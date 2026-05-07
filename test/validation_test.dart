@@ -70,8 +70,8 @@ void main() {
     });
 
     test('accepts longer passwords with letters and digits', () {
-      expect(_isStrongPassword('Wasspord1'), isTrue); // nosecret
-      expect(_isStrongPassword('W@ssp0rd!'), isTrue); // nosecret
+      expect(_isStrongPassword('Makepord1'), isTrue);
+      expect(_isStrongPassword('W@kep0rd!'), isTrue);
       expect(_isStrongPassword('abcdefg1'), isTrue);
     });
 
