@@ -365,9 +365,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
                 schoolId: schoolId.isEmpty ? null : schoolId,
                 classId: classId.isEmpty ? null : classId,
                 mobile: (r['mobile'] ?? '').isEmpty ? null : r['mobile'],
-                dateOfBirth: (r['date_of_birth'] ?? '').isEmpty
-                    ? null
-                    : r['date_of_birth'],
                 guardianTypeId: guardianTypeId.isEmpty ? null : guardianTypeId,
                 guardianUserId: guardianUserId.isEmpty ? null : guardianUserId,
                 address: (r['address'] ?? '').isEmpty ? null : r['address'],
@@ -491,7 +488,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
         'send_invite',
         'mobile',
         'address',
-        'date_of_birth',
         'school_id',
         'school',
         'class_id',
@@ -523,7 +519,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
         // ── STUDENT ────────────────────────────────────────────────────────
         // Required: email, first_name, last_name, role, school, class,
         //           guardian_type, guardian_user_email
-        // Optional: password, mobile, date_of_birth, acc_number, opening_bal
+        // Optional: password, mobile, acc_number, opening_bal
         [
           'anika.ramsay@students.lccu.edu', // email
           '', // password (blank → invite email sent)
@@ -533,13 +529,12 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           'true', // send_invite
           '', // mobile
           '', // address
-          '2013-03-22', // date_of_birth (YYYY-MM-DD)
           '', // school_id (leave blank — use school name)
           'Sunshine Primary School', // school
           '', // class_id (leave blank — use class name)
           'Grade 4B', // class
           '', // guardian_type_id
-          'Parent', // guardian_type
+          'Mother', // guardian_type
           '', // guardian_user_id
           'diana.ramsay@email.com', // guardian_user_email (existing guardian)
           '', // guardian_first_name (only needed if creating guardian)
@@ -562,7 +557,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           'true',
           '',
           '',
-          '2012-07-09',
           '',
           'Sunshine Primary School',
           '',
@@ -609,7 +603,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           '',
           '',
-          '',
         ],
 
         // ── TEACHER ────────────────────────────────────────────────────────
@@ -628,7 +621,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           'Sunshine Primary School',
           '',
-          'Grade 4B',
           '',
           '',
           '',
