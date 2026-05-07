@@ -117,6 +117,18 @@ Tap the **Sign Out** button in the bottom right of the screen or
 
 ---
 
+## Data Privacy Responsibilities
+
+As a principal you have school-level visibility of student account activity. You are responsible for:
+
+- Keeping your login credentials confidential — do not share your account
+- Only exporting or sharing transaction data through official channels (LCCU reports, school finance office)
+- Ensuring that teachers under your supervision handle student data appropriately
+- Verifying that parental/guardian consent for new student enrolments has been obtained before a student is registered in the system
+- Reporting any suspected data breach or unauthorised access to your LCCU system administrator immediately
+
+---
+
 ## Getting Help
 
 | Issue | Contact |

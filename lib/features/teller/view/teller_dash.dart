@@ -405,7 +405,7 @@ class _TellerDashboardState extends State<TellerDashboard> {
           return RadioListTile<String>(
             value: b.batchId,
             title: Text(week),
-            subtitle: Text('$amount'),
+            subtitle: Text(amount),
             dense: true,
             contentPadding: EdgeInsets.zero,
             selected: _selectedBatchId == b.batchId,

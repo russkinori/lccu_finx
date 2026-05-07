@@ -186,6 +186,7 @@ You may use human-readable names in `school`, `class`, `guardian_type`, and `cre
 | `Unknown school "X"` | Check exact school name spelling in the database |
 | `Unknown class "X"` | Confirm class name for that specific school |
 | `No guardian user found...` | Either provide guardian details for auto-creation, or register the guardian first |
+| `guardian_type required when linking guardian` | Add a `guardian_type` column value (e.g. "Mother", "Father") for every student row that references an existing guardian |
 
 ---
 
@@ -475,5 +476,45 @@ mr.smith@example.com,John,Smith,teacher,Pass1234!,Mr,male,,,Laborie Primary,,,,,
 
 ---
 
-*Last updated: see git history for version.*  
+## Appendix C — Student Data Privacy Guidelines for Administrators
+
+As an LCCU FinX administrator you are a **data controller** for student account information. The following obligations apply:
+
+### Data Minimisation
+- Collect only the fields the system requires. Fields not listed in the CSV template (e.g. date of birth, national ID, biometrics) must **not** be added to imports or the database without a formal review.
+- Do not store sensitive PII in free-text notes fields.
+
+### Parental / Guardian Consent
+- Before creating a student account, confirm with the school administration that parental or guardian consent for the savings programme has been obtained and documented.
+- When registering student accounts individually, verify the linked guardian is the legal parent or guardian of that student.
+
+### Principle of Least Privilege
+- Create accounts with the minimum role required. Do not assign admin or teller roles to school staff unless explicitly needed.
+- Disable accounts promptly when staff leave or students graduate.
+
+### Bulk Import Privacy Checklist
+Before running a CSV import containing student data:
+- [ ] Confirm the source of the data is an authorised school list
+- [ ] Confirm parental consent documentation is held by the school
+- [ ] Verify the CSV does not contain columns beyond those in the template (no DOB, national ID, etc.)
+- [ ] Delete the CSV file from your local machine after a successful import
+- [ ] Do not email or share CSV files containing student data via unencrypted channels
+
+### Data Subject Requests
+When a parent, guardian, or student submits a data request (access, correction, deletion):
+1. Verify the requestor's identity and their relationship to the student.
+2. For access requests: export the relevant account data and transaction history from Reports.
+3. For correction requests: update via the Update screen.
+4. For deletion requests: deactivate the account and escalate to the Supabase database administrator for full data removal, subject to the 7-year financial record retention requirement.
+5. Log all data subject requests and responses for audit purposes.
+
+### Incident Reporting
+If you suspect a data breach (e.g. CSV file shared with wrong recipient, unauthorised access to admin account):
+1. Change affected credentials immediately.
+2. Notify the LCCU Privacy Officer (privacy@lccufinx.com) within 24 hours.
+3. Document the incident: what data, how many individuals, when discovered, steps taken.
+
+---
+
+*Last updated: May 7, 2026*  
 *LCCU FinX is built by the Laborie Co-operative Credit Union Ltd development team.*

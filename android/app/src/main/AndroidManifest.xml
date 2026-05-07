@@ -27,11 +27,14 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             
-            <!-- Deep link for password reset.
-                 android:autoVerify="true" prepares for Android App Links (HTTPS) verification.
-                 When assetlinks.json is hosted at /.well-known/assetlinks.json on the redirect
-                 domain, Android will verify ownership and prevent URI scheme hijacking. -->
-            <intent-filter android:label="flutter_deep_linking" android:autoVerify="true">
+            <!-- Deep link for Supabase password reset.
+                This uses a private custom URL scheme:
+                io.supabase.lccu_finx://reset-password
+
+                This is not an Android App Link because it does not use an HTTPS domain.
+                Do not use android:autoVerify here; domain verification only applies to
+                HTTPS App Links with a hosted assetlinks.json file. -->
+            <intent-filter android:label="flutter_deep_linking">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />

@@ -169,13 +169,11 @@ class AuthVm extends ChangeNotifier {
 
     try {
       await _client.auth.signInWithPassword(email: email, password: password);
-    } on AuthException catch (e) {
-      _errorMessage = e.message;
+    } on AuthException catch (_) {
       _phase = AuthPhase.signedOut;
       notifyListeners();
       rethrow;
     } catch (e) {
-      _errorMessage = friendlyErrorMessage(e, fallback: 'Sign in failed. Please check your details and try again.');
       _phase = AuthPhase.signedOut;
       notifyListeners();
       rethrow;

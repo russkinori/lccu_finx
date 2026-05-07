@@ -254,6 +254,7 @@ class WebShell extends StatelessWidget {
 
   static void _logout(BuildContext context) {
     AuthScope.of(context, listen: false).signOut().whenComplete(() {
+      if (!context.mounted) return;
       // Clear the whole stack and return directly to the AuthGate (login UI).
       Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
         MaterialPageRoute(

@@ -54,7 +54,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
       _done = 0;
     });
 
-    final res = await FilePicker.platform.pickFiles(
+    final res = await FilePicker.pickFiles(
       allowMultiple: false,
       type: FileType.custom,
       allowedExtensions: ['csv'],
@@ -92,7 +92,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
     });
 
     try {
-      final table = const CsvToListConverter(eol: '\n').convert(text);
+      final table = Csv().decode(text);
       if (table.isEmpty) {
         throw const FormatException('Empty CSV file.');
       }
@@ -365,9 +365,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
                 schoolId: schoolId.isEmpty ? null : schoolId,
                 classId: classId.isEmpty ? null : classId,
                 mobile: (r['mobile'] ?? '').isEmpty ? null : r['mobile'],
-                dateOfBirth: (r['date_of_birth'] ?? '').isEmpty
-                    ? null
-                    : r['date_of_birth'],
                 guardianTypeId: guardianTypeId.isEmpty ? null : guardianTypeId,
                 guardianUserId: guardianUserId.isEmpty ? null : guardianUserId,
                 address: (r['address'] ?? '').isEmpty ? null : r['address'],
@@ -455,7 +452,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
         ),
       ];
 
-      final csvString = const ListToCsvConverter().convert(rows);
+      final csvString = Csv().encode(rows);
       final fileName =
           'import_failures_${DateTime.now().millisecondsSinceEpoch}.csv';
 
@@ -491,7 +488,6 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
         'send_invite',
         'mobile',
         'address',
-        'date_of_birth',
         'school_id',
         'school',
         'class_id',
@@ -510,47 +506,87 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
         'opening_bal',
       ];
 
-      // Create example rows for each role
+      // Create example rows for each role.
+      // password: leave blank to have Supabase send a magic-link invite instead.
+      // school/class/guardian_type/credit_union: supply the NAME (not the id);
+      //   the importer resolves names to ids automatically.
+      // guardian_user_email: if the guardian doesn't exist yet, also supply
+      //   guardian_first_name / guardian_last_name / guardian_mobile / guardian_address
+      //   and the importer will create the guardian account automatically.
       final rows = <List<String>>[
         headers, // header row
-        // Student example
+
+        // ── STUDENT ────────────────────────────────────────────────────────
+        // Required: email, first_name, last_name, role, school, class,
+        //           guardian_type, guardian_user_email
+        // Optional: password, mobile, acc_number, opening_bal
         [
-          'student@example.com',
-          'password123',
-          'John',
-          'Doe',
+          'anika.ramsay@students.lccu.edu', // email
+          '', // password (blank → invite email sent)
+          'Anika', // first_name
+          'Ramsay', // last_name
+          'student', // role
+          'true', // send_invite
+          '', // mobile
+          '', // address
+          '', // school_id (leave blank — use school name)
+          'Sunshine Primary School', // school
+          '', // class_id (leave blank — use class name)
+          'Grade 4B', // class
+          '', // guardian_type_id
+          'Mother', // guardian_type
+          '', // guardian_user_id
+          'diana.ramsay@email.com', // guardian_user_email (existing guardian)
+          '', // guardian_first_name (only needed if creating guardian)
+          '', // guardian_last_name
+          '', // guardian_mobile
+          '', // guardian_address
+          '', // credit_union_id
+          '', // credit_union
+          'STU-2024-001', // acc_number
+          '25.00', // opening_bal
+        ],
+
+        // ── STUDENT (new guardian created inline) ─────────────────────────
+        [
+          'marcus.pierre@students.lccu.edu',
+          '',
+          'Marcus',
+          'Pierre',
           'student',
           'true',
-          '555-0101',
-          '123 Main St',
-          '2010-05-15',
           '',
-          'Elementary School',
           '',
-          'Grade 5',
+          '',
+          'Sunshine Primary School',
+          '',
+          'Grade 5A',
           '',
           'Parent',
+          '', // guardian_user_id — blank, will look up by email
+          'tony.pierre@email.com', // guardian email — not yet in system
+          'Tony', // guardian_first_name — triggers auto-create
+          'Pierre', // guardian_last_name
+          '868-555-0121', // guardian_mobile
+          '45 Hibiscus Drive, San Fernando', // guardian_address
           '',
-          'parent@example.com',
-          'Jane',
-          'Doe',
-          '555-0100',
-          '123 Main St',
           '',
-          '',
-          'STU001',
-          '50.00',
+          'STU-2024-002',
+          '0.00',
         ],
-        // Guardian example
+
+        // ── GUARDIAN ───────────────────────────────────────────────────────
+        // Required: email, first_name, last_name, role, guardian_type
+        // Optional: password, mobile, address
         [
-          'guardian@example.com',
-          'password123',
-          'Jane',
-          'Smith',
+          'diana.ramsay@email.com',
+          '',
+          'Diana',
+          'Ramsay',
           'guardian',
           'true',
-          '555-0102',
-          '456 Oak Ave',
+          '868-555-0110',
+          '12 Poinsettia Lane, Couva',
           '',
           '',
           '',
@@ -567,24 +603,23 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           '',
           '',
-          '',
-          '',
         ],
-        // Teacher example
+
+        // ── TEACHER ────────────────────────────────────────────────────────
+        // Required: email, first_name, last_name, role, school
+        // Optional: password, mobile, address, class
         [
-          'teacher@example.com',
-          'password123',
-          'Bob',
-          'Johnson',
+          'sandra.ali@sunshine.edu',
+          '',
+          'Sandra',
+          'Ali',
           'teacher',
           'true',
-          '555-0103',
-          '789 Elm St',
+          '868-555-0201',
+          '7 Jacaranda Ave, Chaguanas',
           '',
           '',
-          'High School',
-          '',
-          '',
+          'Sunshine Primary School',
           '',
           '',
           '',
@@ -599,20 +634,22 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           '',
         ],
-        // Principal example
+
+        // ── PRINCIPAL ──────────────────────────────────────────────────────
+        // Required: email, first_name, last_name, role, school
+        // Optional: password, mobile, address
         [
-          'principal@example.com',
-          'password123',
-          'Alice',
-          'Williams',
+          'victor.charles@sunshine.edu',
+          '',
+          'Victor',
+          'Charles',
           'principal',
           'true',
-          '555-0104',
-          '321 Pine Rd',
+          '868-555-0301',
+          '1 School Road, Chaguanas',
           '',
           '',
-          'Middle School',
-          '',
+          'Sunshine Primary School',
           '',
           '',
           '',
@@ -628,16 +665,49 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           '',
         ],
-        // Teller example
+
+        // ── TELLER ─────────────────────────────────────────────────────────
+        // Required: email, first_name, last_name, role, credit_union
+        // Optional: password, mobile, address
         [
-          'teller@example.com',
-          'password123',
-          'Charlie',
-          'Brown',
+          'kezia.james@lccu.org',
+          '',
+          'Kezia',
+          'James',
           'teller',
           'true',
-          '555-0105',
-          '654 Maple Dr',
+          '868-555-0401',
+          '10 Independence Square, Port of Spain',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          'LCCU Main Branch',
+          '',
+          '',
+        ],
+
+        // ── ADMIN ───────────────────────────────────────────────────────────
+        // Required: email, first_name, last_name, role
+        // Optional: password, mobile
+        [
+          'nadine.baptiste@lccu.org',
+          '',
+          'Nadine',
+          'Baptiste',
+          'admin',
+          'true',
+          '868-555-0501',
           '',
           '',
           '',
@@ -653,13 +723,13 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           '',
           '',
-          'Main Branch',
+          '',
           '',
           '',
         ],
       ];
 
-      final csvString = const ListToCsvConverter().convert(rows);
+      final csvString = Csv().encode(rows);
       final fileName = 'user_import_template.csv';
 
       final success = await downloadOrShareCsv(csvString, fileName);

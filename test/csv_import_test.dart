@@ -17,7 +17,7 @@ const _kRequired = {'email', 'first_name', 'last_name', 'role'};
 
 /// Returns (rows, error).  error is non-null when parsing fails.
 (List<Map<String, String>>, String?) _parseCsvText(String text) {
-  final table = const CsvToListConverter(eol: '\n').convert(text);
+  final table = Csv().decode(text);
 
   if (table.isEmpty) {
     return ([], 'Empty CSV file.');
@@ -183,7 +183,7 @@ void main() {
   });
 
   group('Row-level validation', () {
-    Map<String, String> _validRow({String role = 'student'}) => {
+    Map<String, String> validRow({String role = 'student'}) => {
       'email': 'x@example.com',
       'first_name': 'Test',
       'last_name': 'User',
@@ -191,31 +191,31 @@ void main() {
     };
 
     test('returns null (valid) for a complete, correctly-typed row', () {
-      expect(_validateRow(_validRow()), isNull);
+      expect(_validateRow(validRow()), isNull);
     });
 
     test('returns error when email is missing', () {
-      final row = _validRow()..['email'] = '';
+      final row = validRow()..['email'] = '';
       expect(_validateRow(row), contains('email'));
     });
 
     test('returns error when first_name is missing', () {
-      final row = _validRow()..['first_name'] = '';
+      final row = validRow()..['first_name'] = '';
       expect(_validateRow(row), contains('first_name'));
     });
 
     test('returns error when last_name is missing', () {
-      final row = _validRow()..['last_name'] = '';
+      final row = validRow()..['last_name'] = '';
       expect(_validateRow(row), contains('last_name'));
     });
 
     test('returns error when role is missing', () {
-      final row = _validRow()..['role'] = '';
+      final row = validRow()..['role'] = '';
       expect(_validateRow(row), contains('role'));
     });
 
     test('returns error for an invalid role value', () {
-      final row = _validRow(role: 'cashier');
+      final row = validRow(role: 'cashier');
       final error = _validateRow(row);
       expect(error, isNotNull);
       expect(error, contains('cashier'));
@@ -223,7 +223,7 @@ void main() {
 
     test('accepts all valid AppRole values', () {
       for (final role in AppRole.values) {
-        final row = _validRow(role: role.label.toLowerCase());
+        final row = validRow(role: role.label.toLowerCase());
         expect(_validateRow(row), isNull, reason: 'role: ${role.label}');
       }
     });

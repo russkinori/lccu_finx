@@ -216,7 +216,7 @@ class _PrincipalHomeState extends State<PrincipalHome> {
             as SupabasePrincipalRepository);
     final history = await repo.getSchoolDepositHistory(_schoolId!);
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     showDialog(
       context: context,
@@ -299,7 +299,7 @@ class _PrincipalHomeState extends State<PrincipalHome> {
       teacherId: teacherId,
     );
 
-    if (!mounted) return;
+    if (!context.mounted) return;
 
     showDialog(
       context: context,
@@ -354,6 +354,8 @@ class _PrincipalHomeState extends State<PrincipalHome> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text('Teacher: ${record.teacherName}'),
+                                if (record.depositDate != null)
+                                  Text('Date: ${formatDate(record.depositDate!)}'),
                                 Text(
                                   'Week: ${formatDate(record.weekStart)} - ${formatDate(record.weekEnd)}',
                                 ),

@@ -1,6 +1,6 @@
 # Terms of Use
 
-**Last Updated: December 9, 2025**
+**Last Updated: May 7, 2026**
 
 ## 1. Acceptance of Terms
 
@@ -21,6 +21,13 @@ LCCU FinX is a financial management application provided by Laborie Co-operative
 - Users are assigned accounts by LCCU administrators
 - You are responsible for maintaining the confidentiality of your login credentials
 - You must notify LCCU immediately of any unauthorized use of your account
+
+### 3.2 Minor Users and Parental Consent
+Student accounts may be assigned to minors (users under 18 years of age). By participating in the LCCU FinX savings programme through a school:
+- The enrolling school confirms that appropriate parental or guardian consent has been obtained for the student's participation and the creation of a digital account.
+- Parents and guardians are responsible for supervising their child's use of the App.
+- Parents and guardians may contact LCCU at any time to review, update, or request deletion of their child's account data (see Privacy Policy, Section 8.7).
+- Where a student is under the minimum age required by applicable law (e.g., under 13 in the United States under COPPA), the school and guardian bear responsibility for ensuring consent is properly documented before account creation.
 
 ### 3.2 User Roles
 The App supports different user roles with varying permissions:
@@ -58,6 +65,8 @@ You agree to use the App only for lawful purposes and in accordance with these T
 - Your use of the App is also governed by our Privacy Policy
 - LCCU collects and processes personal and financial data as described in the Privacy Policy
 - You consent to such collection and processing by using the App
+- For student users, LCCU applies heightened data protections as described in Section 8 of the Privacy Policy, including strict purpose limitation, role-based access controls, and prohibition on marketing or profiling use of student data
+- Parents and guardians may exercise privacy rights on behalf of a minor student at any time by contacting the LCCU Privacy Officer
 
 ## 7. Intellectual Property
 
@@ -87,18 +96,26 @@ You agree to indemnify and hold LCCU harmless from any claims, damages, losses, 
 
 LCCU reserves the right to modify these Terms at any time. Changes will be effective immediately upon posting within the App. Your continued use of the App after changes constitutes acceptance of the modified Terms.
 
-## 11. Termination
+## 11. Parental and Guardian Responsibility
+
+If you are a parent or guardian of a student enrolled in the LCCU FinX savings programme:
+- You are responsible for reviewing these Terms and the Privacy Policy on behalf of your minor child
+- You are responsible for supervising your child’s use of the App in accordance with these Terms
+- You may contact LCCU to obtain, withdraw, or update consent, or to exercise your child's privacy rights
+- LCCU will honour requests from verified parents or guardians to access, correct, or delete a minor student's personal data
+
+## 12. Termination
 
 LCCU may terminate or suspend your access to the App immediately, without prior notice, for:
 - Violation of these Terms
 - Fraudulent or illegal activity
 - At LCCU's sole discretion
 
-## 12. Governing Law
+## 13. Governing Law
 
 These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which LCCU operates, without regard to conflict of law principles.
 
-## 13. Contact Information
+## 14. Contact Information
 
 For questions about these Terms, please contact:
 
@@ -107,11 +124,11 @@ Email: info@lccufinx.com
 Phone: [Contact Number]  
 Address: [Physical Address]
 
-## 14. Severability
+## 15. Severability
 
 If any provision of these Terms is found to be unenforceable or invalid, that provision shall be limited or eliminated to the minimum extent necessary, and the remaining provisions shall remain in full force and effect.
 
-## 15. Entire Agreement
+## 16. Entire Agreement
 
 These Terms, together with the Privacy Policy, constitute the entire agreement between you and LCCU regarding the use of the App.
 
