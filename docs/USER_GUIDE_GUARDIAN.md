@@ -27,6 +27,16 @@ LCCU FinX is a school-based savings app that lets you monitor your child / child
 3. Enter the verification code sent to your email.
 4. Set a new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Your Home Screen
@@ -81,6 +91,16 @@ Tap the yellow **Transaction History** button to see a detailed record of all tr
 
 - Filter by child
 - See dates, amounts, and transaction types
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. You will be notified when:
+
+- A linked child submits a new withdrawal request that needs your approval
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** to clear all at once.
 
 ---
 

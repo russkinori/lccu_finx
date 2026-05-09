@@ -26,6 +26,16 @@ LCCU FinX gives school principals a consolidated view of all teacher collections
 2. Enter your email and tap **Send Code**.
 3. Enter the verification code from your email, then set a new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Your Home Screen
@@ -90,6 +100,14 @@ The deposit batch is sent to the credit union teller as a pending deposit. Once 
 
 1. The **Teacher Deposit Details** card updates to show that teacher's Deposit Due, Deposited, and Difference.
 2. Tap the card for a history of the credit union deposits made by all teachers.
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. You will be notified about key account activity relevant to your school.
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** to clear all at once.
 
 ---
 

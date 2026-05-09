@@ -41,14 +41,18 @@ Splash  →  AuthGate  →  role home screen
                      ↳  Password recovery deep link  →  ResetPasswordPage
 ```
 
+On first login after authentication, `AuthGate` checks `ConsentService`. If the user has not yet accepted the Privacy Policy and Terms of Use, `ConsentScreen` is shown before routing to the role home screen.
+
 | File | Purpose |
 |------|---------|
 | `splash.dart` | Clears local auth state, routes to AuthGate |
-| `auth_gate.dart` | Listens to `supabase.auth.onAuthStateChange`, detects role, routes |
+| `auth_gate.dart` | Listens to `supabase.auth.onAuthStateChange`, detects role, checks consent, routes |
 | `login_page.dart` | Email/password login |
 | `forgot_password.dart` | Triggers password-reset email |
 | `verify_otp_password.dart` | OTP verification + new password |
 | `reset_password.dart` | Deep-link password recovery handler |
+| `consent_screen.dart` | Non-dismissible first-login privacy & terms acknowledgement gate |
+| `consent_service.dart` | Persists consent via `SharedPreferences` (`privacy_policy_accepted_v1`) |
 
 Supabase auth uses **PKCE flow** (`AuthFlowType.pkce`) — secure for both native and web targets.
 
@@ -83,29 +87,34 @@ Each role has a ViewModel + Scope pair (e.g. `StudentVm` / `StudentScope`) distr
 - Teacher deposit monitoring by school
 - Balance pill and deposit difference card
 - Transaction history
+- Notifications inbox
 
 ### 👩‍🏫 Teacher
 - Funds-in-hand summary (weekly deposit total)
 - Class & student dropdowns with "ALL" aggregation
 - Submit Deposit dialog
 - Withdrawal request status per student
+- Notifications inbox
 
 ### 🏦 Teller
 - Multi-school selection
 - School-specific dashboard analytics (`teller_dash.dart`)
 - Branch reporting (`teller_report.dart`)
 - Drawer navigation
+- Notifications inbox
 
 ### 🎓 Student
 - Account balance pill
 - Transaction history card
 - Request Withdrawal popup (amount + reason, `popup_bg.png` background)
 - Latest withdrawal request status
+- Notifications inbox
 
 ### 👨‍👩‍👧 Guardian
 - Children summary table (child · balance · pending requests)
 - Active withdrawal request approval / decline
 - Transaction history per child
+- Notifications inbox
 
 ---
 
@@ -121,6 +130,7 @@ Each role has a ViewModel + Scope pair (e.g. `StudentVm` / `StudentScope`) distr
 | `url_launcher` | ^6.1.10 | External links |
 | `auto_size_text` | ^3.0.0 | Responsive text sizing |
 | `uuid` | ^4.5.1 | Unique ID generation |
+| `shared_preferences` | ^2.3.0 | Persist first-login privacy consent acceptance |
 
 ---
 

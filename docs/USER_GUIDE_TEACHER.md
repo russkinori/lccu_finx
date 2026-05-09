@@ -26,6 +26,16 @@ LCCU FinX is a school-based savings app that allows teachers to collect weekly s
 2. Enter your email and tap **Send Code**.
 3. Enter the code emailed to you and set a new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Your Home Screen
@@ -101,6 +111,14 @@ On the home or transaction screen:
 - Use the **Class** dropdown to see aggregate totals for a class.
 - Use the **Student** dropdown to focus on one student.
 - The **Account Balance** pill updates to reflect the selected scope.
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. Tap the **refresh icon** (↺) next to the bell to manually reload the list. You will be notified about key account activity relevant to your class.
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** to clear all at once.
 
 ---
 

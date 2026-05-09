@@ -26,6 +26,16 @@ LCCU FinX gives credit union tellers a real-time view of all school accounts, pe
 2. Enter your email and tap **Send Code**.
 3. Follow the on-screen instructions to set a new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Navigation
@@ -155,6 +165,14 @@ Tap **Export CSV** on any report screen to download the full report including th
 The export contains:
 - Summary rows with all numeric totals
 - A "Transaction Log" section appended below the summary with every individual transaction
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. You will be notified about key activity across all schools you manage.
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** to clear all at once.
 
 ---
 

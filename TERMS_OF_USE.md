@@ -1,10 +1,10 @@
 # Terms of Use
 
-**Last Updated: May 7, 2026**
+**Last Updated: May 9, 2026**
 
 ## 1. Acceptance of Terms
 
-By accessing and using the LCCU FinX application ("the App"), you accept and agree to be bound by these Terms of Use. If you do not agree to these terms, please do not use the App.
+Before you can access LCCU FinX for the first time, you will be presented with a summary of these Terms of Use and the Privacy Policy and asked to confirm that you have read and agree to both. Tapping "Accept & Continue" on that screen constitutes your acceptance of these Terms. If you do not agree, do not accept and do not use the App.
 
 ## 2. Description of Service
 
@@ -64,7 +64,7 @@ You agree to use the App only for lawful purposes and in accordance with these T
 
 - Your use of the App is also governed by our Privacy Policy
 - LCCU collects and processes personal and financial data as described in the Privacy Policy
-- You consent to such collection and processing by using the App
+- You give your explicit consent to such collection and processing by accepting these Terms through the in-app consent screen on first login
 - For student users, LCCU applies heightened data protections as described in Section 8 of the Privacy Policy, including strict purpose limitation, role-based access controls, and prohibition on marketing or profiling use of student data
 - Parents and guardians may exercise privacy rights on behalf of a minor student at any time by contacting the LCCU Privacy Officer
 
@@ -94,7 +94,7 @@ You agree to indemnify and hold LCCU harmless from any claims, damages, losses, 
 
 ## 10. Modifications to Terms
 
-LCCU reserves the right to modify these Terms at any time. Changes will be effective immediately upon posting within the App. Your continued use of the App after changes constitutes acceptance of the modified Terms.
+LCCU reserves the right to modify these Terms at any time. Changes will be posted within the App with an updated "Last Updated" date. For non-material changes, your continued use of the App after changes constitutes acceptance. For material changes — particularly those affecting data collection, privacy rights, or user obligations — you will be required to review and re-accept the updated Terms through the in-app consent screen before continuing to use the App.
 
 ## 11. Parental and Guardian Responsibility
 
@@ -113,16 +113,19 @@ LCCU may terminate or suspend your access to the App immediately, without prior 
 
 ## 13. Governing Law
 
-These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which LCCU operates, without regard to conflict of law principles.
+These Terms shall be governed by and construed in accordance with the laws of Saint Lucia, in which the relevant LCCU branch operates, without regard to conflict of law principles.
 
 ## 14. Contact Information
 
 For questions about these Terms, please contact:
 
 **Laborie Co-operative Credit Union Ltd**  
-Email: info@lccufinx.com  
-Phone: [Contact Number]  
-Address: [Physical Address]
+Email: schoolthrift@mylaboriecu.com  
+Phone: +1-758-459-6900  
+Address: Allan Louisy Street
+Laborie
+Saint Lucia, W.I.
+LC11 101
 
 ## 15. Severability
 
@@ -134,4 +137,4 @@ These Terms, together with the Privacy Policy, constitute the entire agreement b
 
 ---
 
-**By using LCCU FinX, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use.**
+**By tapping "Accept & Continue" on the in-app consent screen, you acknowledge that you have read, understood, and agree to be bound by these Terms of Use.**

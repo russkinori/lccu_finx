@@ -27,6 +27,16 @@ LCCU FinX is a school-based savings app that lets you check your account balance
 3. Check your email for a verification code.
 4. Enter the code when prompted, then set your new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds about you and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Your Home Screen
@@ -76,6 +86,17 @@ Your request will appear in the **Withdrawal Request** card as **Pending** until
 | **Approved** | Your guardian approved it — it will be processed by your teacher |
 | **Declined** | Your guardian did not approve this request |
 | **Completed** | The teacher has given you the requested amount |
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. You will be notified when:
+
+- Your guardian approves or declines a withdrawal request you submitted
+- A teacher marks your approved withdrawal as completed
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** at the top of the screen to clear all at once.
 
 ---
 

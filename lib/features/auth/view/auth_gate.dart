@@ -29,6 +29,11 @@ import 'package:lccu_finx/features/auth/view/password_reset.dart';
 import 'package:lccu_finx/features/settings/view/settings.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:lccu_finx/core/utils/app_logger.dart';
+import 'package:lccu_finx/features/notifications/data/notification_repo.dart';
+import 'package:lccu_finx/features/notifications/viewmodel/notification_vm.dart';
+import 'package:lccu_finx/features/notifications/view/notification_bell.dart';
+import 'package:lccu_finx/features/legal/service/consent_service.dart';
+import 'package:lccu_finx/features/legal/view/consent_screen.dart';
 
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key, required this.adminRepo});
@@ -41,6 +46,17 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   StreamSubscription<AuthState>? _authSubscription;
+
+  // null = not yet checked, false = must show consent, true = accepted
+  bool? _consentAccepted;
+  bool _checkingConsent = false;
+
+  Future<void> _checkConsent() async {
+    if (_checkingConsent) return;
+    _checkingConsent = true;
+    final accepted = await ConsentService.isAccepted();
+    if (mounted) setState(() => _consentAccepted = accepted);
+  }
 
   @override
   void initState() {
@@ -86,6 +102,15 @@ class _AuthGateState extends State<AuthGate> {
     ),
   );
 
+  /// Creates a fresh NotificationVm and kicks off an initial fetch.
+  NotificationVm _makeNotifVm() {
+    final vm = NotificationVm(
+      repo: SupabaseNotificationRepository(supabase),
+    );
+    scheduleMicrotask(() => vm.refresh());
+    return vm;
+  }
+
   @override
   Widget build(BuildContext context) {
     appLog('AuthGate: build called');
@@ -103,6 +128,17 @@ class _AuthGateState extends State<AuthGate> {
 
     if (phase == AuthPhase.ready) {
       appLog('AuthGate: phase is ready, checking roles');
+
+      // --- Consent gate ---
+      if (_consentAccepted == null) {
+        _checkConsent();
+        return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      }
+      if (!_consentAccepted!) {
+        return ConsentScreen(
+          onAccepted: () => setState(() => _consentAccepted = true),
+        );
+      }
       // Admin users go to the admin console
       if (authVm.isAdmin) {
         appLog('AuthGate: user is admin, showing AppRouter');
@@ -116,14 +152,18 @@ class _AuthGateState extends State<AuthGate> {
         final repo = SupabaseStudentRepository(supabase, common);
         final vm = StudentVm(repo: repo);
         scheduleMicrotask(() => vm.bootstrap());
-        return StudentScope(
-          notifier: vm,
-          child: DashboardShell(
-            center: const StudentHome(),
-            welcomeText: '',
-            appBarActions: [
-              _settingsButton(context),
-            ],
+        return NotificationScope(
+          vm: _makeNotifVm(),
+          child: StudentScope(
+            notifier: vm,
+            child: DashboardShell(
+              center: const StudentHome(),
+              welcomeText: '',
+              appBarActions: [
+                const NotificationBell(),
+                _settingsButton(context),
+              ],
+            ),
           ),
         );
       }
@@ -135,14 +175,18 @@ class _AuthGateState extends State<AuthGate> {
         final repo = SupabasePrincipalRepository(supabase, common);
         final vm = PrincipalVm(repo: repo, common: common);
         scheduleMicrotask(() => vm.bootstrap());
-        return PrincipalScope(
-          notifier: vm,
-          child: DashboardShell(
-            center: const PrincipalHome(),
-            welcomeText: '',
-            appBarActions: [
-              _settingsButton(context),
-            ],
+        return NotificationScope(
+          vm: _makeNotifVm(),
+          child: PrincipalScope(
+            notifier: vm,
+            child: DashboardShell(
+              center: const PrincipalHome(),
+              welcomeText: '',
+              appBarActions: [
+                const NotificationBell(),
+                _settingsButton(context),
+              ],
+            ),
           ),
         );
       }
@@ -153,22 +197,26 @@ class _AuthGateState extends State<AuthGate> {
         final repo = SupabaseTeacherRepository(supabase, common);
         final vm = TeacherVm(repo: repo);
         scheduleMicrotask(() => vm.bootstrap());
-        return TeacherScope(
-          notifier: vm,
-          child: Builder(
-            builder: (ctx) => DashboardShell(
-              center: const TeacherHome(),
-              welcomeText: '',
-              appBarActions: [
-                IconButton(
-                  icon: const Icon(Icons.refresh),
-                  onPressed: () {
-                    final teacherVm = TeacherScope.of(ctx, listen: false);
-                    teacherVm.refresh();
-                  },
-                ),
-                _settingsButton(ctx),
-              ],
+        return NotificationScope(
+          vm: _makeNotifVm(),
+          child: TeacherScope(
+            notifier: vm,
+            child: Builder(
+              builder: (ctx) => DashboardShell(
+                center: const TeacherHome(),
+                welcomeText: '',
+                appBarActions: [
+                  const NotificationBell(),
+                  IconButton(
+                    icon: const Icon(Icons.refresh),
+                    onPressed: () {
+                      final teacherVm = TeacherScope.of(ctx, listen: false);
+                      teacherVm.refresh();
+                    },
+                  ),
+                  _settingsButton(ctx),
+                ],
+              ),
             ),
           ),
         );
@@ -181,14 +229,18 @@ class _AuthGateState extends State<AuthGate> {
         final repo = SupabaseGuardianRepository(supabase, common);
         final vm = GuardianVm(repo: repo);
         scheduleMicrotask(() => vm.bootstrap());
-        return GuardianScope(
-          notifier: vm,
-          child: DashboardShell(
-            center: const GuardianHome(),
-            welcomeText: '',
-            appBarActions: [
-              _settingsButton(context),
-            ],
+        return NotificationScope(
+          vm: _makeNotifVm(),
+          child: GuardianScope(
+            notifier: vm,
+            child: DashboardShell(
+              center: const GuardianHome(),
+              welcomeText: '',
+              appBarActions: [
+                const NotificationBell(),
+                _settingsButton(context),
+              ],
+            ),
           ),
         );
       }
