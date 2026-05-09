@@ -253,6 +253,7 @@ AS $function$
   LIMIT GREATEST(COALESCE(p_limit, 50), 1);
 $function$;
 
+REVOKE EXECUTE ON FUNCTION public.my_notifications(int) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.my_notifications(int) TO authenticated;
 
 -- -----------------------------------------------------------
@@ -271,6 +272,7 @@ AS $function$
      AND user_id          = auth.uid();
 $function$;
 
+REVOKE EXECUTE ON FUNCTION public.mark_notification_read(uuid) FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.mark_notification_read(uuid) TO authenticated;
 
 -- -----------------------------------------------------------
@@ -288,4 +290,5 @@ AS $function$
      AND is_read  = false;
 $function$;
 
+REVOKE EXECUTE ON FUNCTION public.mark_all_notifications_read() FROM PUBLIC;
 GRANT EXECUTE ON FUNCTION public.mark_all_notifications_read() TO authenticated;
