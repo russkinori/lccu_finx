@@ -562,7 +562,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           'Grade 5A',
           '',
-          'Parent',
+          'Father',
           '', // guardian_user_id — blank, will look up by email
           'tony.pierre@email.com', // guardian email — not yet in system
           'Tony', // guardian_first_name — triggers auto-create
@@ -593,7 +593,7 @@ class _AdminUsersCsvImportState extends State<AdminUsersCsvImport> {
           '',
           '',
           '',
-          'Parent',
+          'Mother',
           '',
           '',
           '',

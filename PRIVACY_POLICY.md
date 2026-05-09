@@ -206,17 +206,16 @@ To exercise these rights, contact the LCCU Privacy Officer (see Section 12). We 
 
 ### 8.8 Applicable Student Privacy Standards
 In delivering the student savings programme, LCCU applies practices consistent with the following frameworks where applicable to its jurisdiction:
-- **Local data protection regulations** applicable in Saint Lucia and the Eastern Caribbean jurisdictions where LCCU operates
-- **COPPA** (Children's Online Privacy Protection Act) — where applicable for users in the United States
-- **FERPA** (Family Educational Rights and Privacy Act) — where applicable for student education records
-
-LCCU applies the principle of data protection by design and by default for all student accounts regardless of the specific regulatory framework in force.
+- **COPPA** (Children's Online Privacy Protection Act) — for users in the United States under 13
+- **FERPA** (Family Educational Rights and Privacy Act) — for student education records
+- **GDPR** and **UK GDPR** — for users in the European Economic Area or United Kingdom, including the principle of data protection by design and by default for children
+- **Local data protection regulations** applicable in the jurisdictions where LCCU operates
 
 Where any applicable standard imposes stricter requirements than this policy, those stricter requirements will apply.
 
 ## 9. International Data Transfers
 
-The App is operated from Saint Lucia and is intended for use within Saint Lucia and the Caribbean region. To deliver the App, LCCU uses Supabase Inc. as its infrastructure provider. Supabase may store and process your information on servers located in the **United States** and **Singapore**.
+The App is operated from Saint Lucia and is intended for use within Saint Lucia. To deliver the App, LCCU uses Supabase Inc. as its infrastructure provider. Supabase may store and process your information on servers located in the **United States** and **Singapore**.
 
 This cross-border processing is governed by our Data Processing Agreement with Supabase, which requires Supabase to implement appropriate technical and organisational measures to protect your information and to process it only on our documented instructions. By using the App, you acknowledge that your information may be transferred to and processed in these countries.
 
@@ -244,11 +243,13 @@ LC11 101
 ## 13. Regulatory Compliance
 
 LCCU complies with applicable data protection laws and regulations, including:
-- Local data protection regulations in Saint Lucia and all Caribbean jurisdictions where LCCU operates
+- Local data protection regulations in all jurisdictions where LCCU operates
 - Financial services regulations governing the retention and handling of financial records
 - Educational institution data protection requirements
-- **COPPA** (Children's Online Privacy Protection Act) — where applicable for the collection of personal information from children under 13
-- **FERPA** (Family Educational Rights and Privacy Act) — where applicable for student education records
+- **COPPA** (Children's Online Privacy Protection Act) — governing the collection of personal information from children under 13 in the United States
+- **FERPA** (Family Educational Rights and Privacy Act) — governing the privacy of student education records
+- **GDPR / UK GDPR** — governing data protection by design and by default, including heightened protections for minors
+- **PIPEDA** (Personal Information Protection and Electronic Documents Act) — where applicable for Canadian users
 
 Where student data is involved, LCCU applies the most protective standard available under applicable law, and follows the principle of data protection by design: collecting the minimum data necessary, limiting access to authorised roles, and retaining data only for as long as required.
 
@@ -258,7 +259,7 @@ Upon first accessing the App, you will be presented with this Privacy Policy and
 
 For student accounts, consent is provided by the school and/or guardian as described in Section 8.2. Students themselves do not provide primary consent for account creation.
 
-You may withdraw consent at any time by contacting the Privacy Officer (see Section 12). Withdrawal of consent may require deactivation of your account.
+You may withdraw consent at any time by contacting the Compliance Officer (see Section 12). Withdrawal of consent may require deactivation of your account.
 
 ---
 
