@@ -405,7 +405,22 @@ class _TellerDashboardState extends State<TellerDashboard> {
           return RadioListTile<String>(
             value: b.batchId,
             title: Text(week),
-            subtitle: Text(amount),
+            subtitle: b.note.isNotEmpty
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(amount),
+                      Text(
+                        b.note,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.orange.shade700,
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                    ],
+                  )
+                : Text(amount),
             dense: true,
             contentPadding: EdgeInsets.zero,
             selected: _selectedBatchId == b.batchId,

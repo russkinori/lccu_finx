@@ -131,7 +131,7 @@ class _LoginFormState extends State<LoginForm> {
                     onPressed: (signingIn || _lockSecondsLeft > 0) ? null : () => _attemptLogin(),
                     gradient: AppGradients.yellowGradient,
                     width: double.infinity,
-                    height: 40,
+                    height: 50,
                     child: signingIn
                         ? const SizedBox(
                             height: 16,
@@ -259,53 +259,7 @@ class _LoginFormState extends State<LoginForm> {
     }
   }
 
-  // Future<void> _sendForgotPassword() async {
-  //   final email = _email.text.trim();
-  //   // Validate that the user entered an email before proceeding
-  //   final emailPattern = RegExp(r"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-  //   if (email.isEmpty || !emailPattern.hasMatch(email)) {
-  //     // Show a helpful message asking the user to enter a valid email
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Please enter a valid email address before requesting a password reset.')),
-  //     );
-  //     return;
-  //   }
-  //   // Build a mailto URI to open the user's mail client with a prefilled message.
-  //   final subject = Uri.encodeComponent('Password reset request');
-  //   final body = Uri.encodeComponent(
-  //     'A password reset has been requested for the account with email: ${email.isEmpty ? '<unknown>' : email}.\n\nPlease process this request on behalf of the user.'
-  //   );
-  //   final uri = Uri.parse('mailto:schoolthrift@mylaboriecu.com?subject=$subject&body=$body');
 
-  //   try {
-  //     // Try to open the user's default mail app. On web this will open mail client or mailto handler.
-  //     if (!await launchUrl(uri)) {
-  //       // launchUrl returned false -> show fallback message
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Unable to open mail app. Please email schoolthrift@mylaboriecu.com manually.')),
-  //       );
-  //     }
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Failed to open mail app. Please email schoolthrift@mylaboriecu.com manually.')),
-  //     );
-  //   }
-
-  //   // Show a friendly confirmation dialog informing the user that the request was initiated
-  //   showDialog<void>(
-  //     context: context,
-  //     builder: (ctx) => AlertDialog(
-  //       backgroundColor: Colors.white,
-  //       title: const Text('Password reset request sent'),
-  //       content: Text(
-  //         'A password reset request has been prepared and your mail app was opened.\n\nIf the mail app did not open, please send an email to schoolthrift@mylaboriecu.com and include your account email (${email.isEmpty ? 'your email' : email}).\n\nThe administrator will process the request.',
-  //       ),
-  //       actions: [
-  //         TextButton(onPressed: () => Navigator.of(ctx).pop(), child: const Text('OK')),
-  //       ],
-  //     ),
-  //   );
-  // }
 }
 
 /// A text field with a left "pill" label joined to the input,
@@ -349,8 +303,10 @@ class PillLabeledTextField extends StatelessWidget {
       borderSide: BorderSide(color: Colors.black.withValues(alpha: 0.2)),
     );
 
-    return Row(
-      children: [
+    return IntrinsicHeight(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
         // Left blue pill label — use a constrained min width so all labels match
         ConstrainedBox(
           constraints: BoxConstraints(minWidth: pillWidth ?? 110),
@@ -375,9 +331,7 @@ class PillLabeledTextField extends StatelessWidget {
         ),
         // Input
         Expanded(
-          child: SizedBox(
-            height: 48,
-            child: TextFormField(
+          child: TextFormField(
               controller: controller,
               keyboardType: keyboardType,
               textInputAction: textInputAction,
@@ -404,8 +358,8 @@ class PillLabeledTextField extends StatelessWidget {
               ),
             ),
           ),
-        ),
       ],
-    );
+    ),
+  );
   }
 }

@@ -17,7 +17,11 @@ void main() {
   group('Security hardening regression checks', () {
     test('lib does not use direct Supabase table access', () {
       final offenders = <String>[];
-      final directTablePattern = RegExp(r'\.from\s*\(');
+      // Match Supabase client .from('table') or .from("table") calls.
+      // Supabase always takes a string literal — this avoids false positives
+      // from Dart collection constructors (List.from, Map.from, etc.) and
+      // from code comments that mention .from().
+      final directTablePattern = RegExp(r'''\.from\s*\(\s*['"]''');
 
       for (final file in _dartFilesUnder('lib')) {
         final contents = file.readAsStringSync();

@@ -77,6 +77,7 @@ class DepositBatchRow {
   final double expectedAmount;
   final double depositedAmount;
   final double remainingAmount;
+  final String note;
 
   const DepositBatchRow({
     required this.batchId,
@@ -85,6 +86,7 @@ class DepositBatchRow {
     required this.expectedAmount,
     required this.depositedAmount,
     required this.remainingAmount,
+    this.note = '',
   });
 }
 
@@ -362,6 +364,7 @@ class SupabaseTellerRepository implements TellerRepository {
                 (row['deposited_amount'] as num?)?.toDouble() ?? 0.0,
             remainingAmount:
                 (row['remaining_amount'] as num?)?.toDouble() ?? 0.0,
+            note: (row['note'] as String?) ?? '',
           ),
         );
       }
@@ -403,6 +406,7 @@ class SupabaseTellerRepository implements TellerRepository {
         depositedAmount:
             (matched['deposited_amount'] as num?)?.toDouble() ?? 0.0,
         remainingAmount: remaining,
+        note: (matched['note'] as String?) ?? '',
       );
     } catch (e) {
       appLogError(e);
