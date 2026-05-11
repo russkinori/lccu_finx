@@ -89,200 +89,183 @@ class _TellerHomeState extends State<TellerHome> {
             ),
           ],
           const SizedBox(height: 18),
-          LayoutBuilder(
-            builder: (context, constraints) {
-              final maxCardHeight = MediaQuery.of(context).size.height * 0.65;
+          ClipRRect(
+            borderRadius: BorderRadius.circular(radius),
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(radius),
+                border: Border.all(color: AppColors.primaryBlue),
+              ),
+              child: Builder(
+                builder: (context) {
+                  final rows = vm.schools;
 
-              return ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: 180,
-                  maxHeight: maxCardHeight,
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(radius),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(radius),
-                      border: Border.all(color: AppColors.primaryBlue),
-                    ),
-                    child: Column(
-                      children: [
-                        Container(
-                          color: AppColors.primaryBlue,
-                          padding: EdgeInsets.symmetric(
-                            vertical: isNarrow ? 6 : 8,
-                          ),
-                          child: Row(
-                            children: [
-                              _HeaderCell(
-                                'School',
-                                flex: 4,
-                                isNarrow: isNarrow,
-                              ),
-                              _HeaderCell(
-                                'Account Balance',
-                                flex: 3,
-                                right: true,
-                                isNarrow: isNarrow,
-                              ),
-                              _HeaderCell(
-                                'Pending Deposit',
-                                flex: 3,
-                                right: true,
-                                isNarrow: isNarrow,
-                              ),
-                              _HeaderCell(
-                                'Disparity',
-                                flex: 3,
-                                right: true,
-                                isNarrow: isNarrow,
-                              ),
-                            ],
+                  // ---- Loading / error / empty states ----
+                  if (vm.isLoading && rows.isEmpty) {
+                    return const SizedBox(
+                      height: 180,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  if ((vm.error ?? '').isNotEmpty && rows.isEmpty) {
+                    return SizedBox(
+                      height: 180,
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            vm.error!,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(color: Colors.red),
                           ),
                         ),
-                        Expanded(
-                          child: Builder(
-                            builder: (context) {
-                              final rows = vm.schools;
+                      ),
+                    );
+                  }
 
-                              if (vm.isLoading && rows.isEmpty) {
-                                return const Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              }
+                  if (rows.isEmpty) {
+                    return const SizedBox(
+                      height: 180,
+                      child: Center(child: Text('No schools')),
+                    );
+                  }
 
-                              if ((vm.error ?? '').isNotEmpty && rows.isEmpty) {
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16),
-                                    child: Text(
-                                      vm.error!,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(color: Colors.red),
+                  // ---- Header + rows (expands with content) ----
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        color: AppColors.primaryBlue,
+                        padding: EdgeInsets.symmetric(
+                          vertical: isNarrow ? 6 : 8,
+                        ),
+                        child: Row(
+                          children: [
+                            _HeaderCell(
+                              'School',
+                              flex: 4,
+                              isNarrow: isNarrow,
+                            ),
+                            _HeaderCell(
+                              'Account Balance',
+                              flex: 3,
+                              right: true,
+                              isNarrow: isNarrow,
+                            ),
+                            _HeaderCell(
+                              'Pending Deposit',
+                              flex: 3,
+                              right: true,
+                              isNarrow: isNarrow,
+                            ),
+                            _HeaderCell(
+                              'Disparity',
+                              flex: 3,
+                              right: true,
+                              isNarrow: isNarrow,
+                            ),
+                          ],
+                        ),
+                      ),
+                      for (int i = 0; i < rows.length; i++) ...[
+                        if (i > 0)
+                          const Divider(height: 1, color: Colors.black12),
+                        InkWell(
+                          onTap: () async {
+                            await vm.selectSchool(rows[i].schoolId);
+                            if (!context.mounted) return;
+                            Navigator.of(context).pushNamed('/teller/dash');
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: isNarrow ? 8 : 12,
+                              vertical: isNarrow ? 8 : 10,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  flex: 4,
+                                  child: Text(
+                                    rows[i].schoolName,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      decoration: TextDecoration.underline,
+                                      fontSize: isNarrow ? 12 : 14,
                                     ),
                                   ),
-                                );
-                              }
-
-                              if (rows.isEmpty) {
-                                return const Center(child: Text('No schools'));
-                              }
-
-                              return ListView.separated(
-                                padding: const EdgeInsets.symmetric(vertical: 8),
-                                itemCount: rows.length,
-                                separatorBuilder: (context, index) => const Divider(
-                                  height: 1,
-                                  color: Colors.black12,
                                 ),
-                                itemBuilder: (context, i) {
-                                  final s = rows[i];
-                                  return InkWell(
-                                    onTap: () async {
-                                      await vm.selectSchool(s.schoolId);
-                                      if (!context.mounted) return;
-                                      Navigator.of(context).pushNamed('/teller/dash');
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                        horizontal: isNarrow ? 8 : 12,
-                                        vertical: isNarrow ? 8 : 10,
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Expanded(
-                                            flex: 4,
-                                            child: Text(
-                                              s.schoolName,
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w500,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                                fontSize: isNarrow ? 12 : 14,
-                                              ),
-                                            ),
-                                          ),
-                                          _vDivider(),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                right: isNarrow ? 4 : 8,
-                                              ),
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  '\$${s.accountBalance.toStringAsFixed(2)}',
-                                                  style: TextStyle(
-                                                    fontSize: isNarrow ? 11 : 14,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          _vDivider(),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                right: isNarrow ? 4 : 8,
-                                              ),
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  '\$${s.pendingDeposit.toStringAsFixed(2)}',
-                                                  style: TextStyle(
-                                                    fontSize: isNarrow ? 11 : 14,
-                                                    color: s.pendingDeposit < 0
-                                                        ? Colors.red.shade700
-                                                        : null,
-                                                    fontWeight:
-                                                        s.pendingDeposit < 0
-                                                        ? FontWeight.w600
-                                                        : null,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          _vDivider(),
-                                          Expanded(
-                                            flex: 3,
-                                            child: Padding(
-                                              padding: EdgeInsets.only(
-                                                right: isNarrow ? 4 : 8,
-                                              ),
-                                              child: Align(
-                                                alignment:
-                                                    Alignment.centerRight,
-                                                child: Text(
-                                                  '\$${s.latestDiscrepancy.toStringAsFixed(2)}',
-                                                  style: TextStyle(
-                                                    fontSize: isNarrow ? 11 : 14,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
+                                _vDivider(),
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      right: isNarrow ? 4 : 8,
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '\$${rows[i].accountBalance.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          fontSize: isNarrow ? 11 : 14,
+                                        ),
                                       ),
                                     ),
-                                  );
-                                },
-                              );
-                            },
+                                  ),
+                                ),
+                                _vDivider(),
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      right: isNarrow ? 4 : 8,
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '\$${rows[i].pendingDeposit.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          fontSize: isNarrow ? 11 : 14,
+                                          color: rows[i].pendingDeposit < 0
+                                              ? Colors.red.shade700
+                                              : null,
+                                          fontWeight: rows[i].pendingDeposit < 0
+                                              ? FontWeight.w600
+                                              : null,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                _vDivider(),
+                                Expanded(
+                                  flex: 3,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      right: isNarrow ? 4 : 8,
+                                    ),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '\$${rows[i].latestDiscrepancy.toStringAsFixed(2)}',
+                                        style: TextStyle(
+                                          fontSize: isNarrow ? 11 : 14,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
-                    ),
-                  ),
-                ),
-              );
-            },
+                    ],
+                  );
+                },
+              ),
+            ),
           ),
         ],
       ),
