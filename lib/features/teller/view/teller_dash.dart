@@ -30,11 +30,10 @@ class _TellerDashboardState extends State<TellerDashboard> {
 
   String? _displayName;
   String? _selectedTeacherId;
-  String? _selectedBatchId;
+  final Set<String> _selectedBatchIds = {};
   String? _payoutRequestId;
 
   bool _recordingWithdrawal = false;
-  double _pendingDepositSnapshot = 0.0;
 
   @override
   void dispose() {
@@ -48,7 +47,15 @@ class _TellerDashboardState extends State<TellerDashboard> {
   double get _fundsReceived =>
       double.tryParse(_fundsCtrl.text.replaceAll(',', '')) ?? 0.0;
 
-  double get _discrepancy => _pendingDepositSnapshot - _fundsReceived;
+  /// Discrepancy relative to the batches the teller has chosen to cover.
+  /// Expected = sum of selected batches' remaining amounts.
+  double _discrepancy(TellerVm vm) {
+    if (_selectedBatchIds.isEmpty) return -_fundsReceived;
+    final selectedTotal = vm.batches
+        .where((b) => _selectedBatchIds.contains(b.batchId))
+        .fold(0.0, (sum, b) => sum + b.remainingAmount);
+    return selectedTotal - _fundsReceived;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -112,7 +119,6 @@ class _TellerDashboardState extends State<TellerDashboard> {
                       0.0,
                       (sum, b) => sum + b.remainingAmount,
                     );
-                    _pendingDepositSnapshot = pendingDeposit;
 
                     return LayoutBuilder(
                       builder: (context, constraints) {
@@ -379,7 +385,6 @@ class _TellerDashboardState extends State<TellerDashboard> {
     );
   }
 
-  /// ✅ Updated to RadioGroup API
   Widget _batchSelection(TellerVm vm) {
     final batches = vm.batches;
     if (batches.isEmpty) {
@@ -392,18 +397,33 @@ class _TellerDashboardState extends State<TellerDashboard> {
       );
     }
 
-    return RadioGroup<String>(
-      groupValue: _selectedBatchId,
-      onChanged: (v) => setState(() => _selectedBatchId = v),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: batches.map((b) {
+    final selectedTotal = batches
+        .where((b) => _selectedBatchIds.contains(b.batchId))
+        .fold(0.0, (sum, b) => sum + b.remainingAmount);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Select batch(es)',
+          style: TextStyle(fontWeight: FontWeight.w600, color: Colors.black87),
+        ),
+        const SizedBox(height: 4),
+        ...batches.map((b) {
           final week =
               '${DateFormat('MMM d').format(b.weekStart)} – ${DateFormat('MMM d, yyyy').format(b.weekEnd)}';
           final amount = _formatMoney(b.remainingAmount);
+          final isChecked = _selectedBatchIds.contains(b.batchId);
 
-          return RadioListTile<String>(
-            value: b.batchId,
+          return CheckboxListTile(
+            value: isChecked,
+            onChanged: (checked) => setState(() {
+              if (checked == true) {
+                _selectedBatchIds.add(b.batchId);
+              } else {
+                _selectedBatchIds.remove(b.batchId);
+              }
+            }),
             title: Text(week),
             subtitle: b.note.isNotEmpty
                 ? Column(
@@ -423,17 +443,33 @@ class _TellerDashboardState extends State<TellerDashboard> {
                 : Text(amount),
             dense: true,
             contentPadding: EdgeInsets.zero,
-            selected: _selectedBatchId == b.batchId,
+            controlAffinity: ListTileControlAffinity.leading,
           );
-        }).toList(),
-      ),
+        }),
+        if (_selectedBatchIds.isNotEmpty) ...[
+          const Divider(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'Selected total:',
+                style: TextStyle(fontWeight: FontWeight.w600),
+              ),
+              Text(
+                _formatMoney(selectedTotal),
+                style: const TextStyle(fontWeight: FontWeight.w600),
+              ),
+            ],
+          ),
+        ],
+      ],
     );
   }
 
   // ================= SUBMIT LOGIC =================
   Future<bool> _confirmDepositDialog(TellerVm vm) async {
     final funds = _fundsReceived;
-    final disc = _discrepancy;
+    final disc = _discrepancy(vm);
     final notes = _notesCtrl.text.trim();
     final depositorName = vm.teachers
         .where((t) => t.id == _selectedTeacherId)
@@ -691,9 +727,9 @@ class _TellerDashboardState extends State<TellerDashboard> {
         if (!ok) return;
         await vm.confirmDeposit(
           amount: _fundsReceived,
-          discrepancy: _discrepancy,
+          discrepancy: _discrepancy(vm),
           notes: _notesCtrl.text.trim(),
-          batchIds: _selectedBatchId == null ? null : [_selectedBatchId!],
+          batchIds: _selectedBatchIds.isEmpty ? null : _selectedBatchIds.toList(),
         );
         _resetDepositForm(vm);
       }
@@ -720,7 +756,7 @@ class _TellerDashboardState extends State<TellerDashboard> {
       // Deposit: depositor selected + funds received > 0 + batch selected
       if (_selectedTeacherId == null) return false;
       if (_fundsReceived <= 0) return false;
-      if (_selectedBatchId == null) return false;
+      if (_selectedBatchIds.isEmpty) return false;
       return true;
     }
   }
@@ -730,7 +766,7 @@ class _TellerDashboardState extends State<TellerDashboard> {
     _fundsCtrl.clear();
     _notesCtrl.clear();
     _selectedTeacherId = null;
-    _selectedBatchId = null;
+    _selectedBatchIds.clear();
     vm.selectTeacher(null);
     setState(() {});
   }
