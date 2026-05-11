@@ -64,3 +64,19 @@ out_apks_dir/
 bundletool-all-*.jar
 android/local.properties
 __MACOSX/
+
+# Supabase CLI local state (project ref, linked project, API version cache)
+# These are machine-specific and must not be committed.
+supabase/.temp/
+
+# SonarQube local scan workspace (generated analysis artifacts)
+.scannerwork/
+
+# VS Code C/C++ extension — machine-specific include paths, auto-generated
+.vscode/c_cpp_properties.json
+
+# Local device preference written by `flutter run`
+device.json
+
+# Developer scratch / TODO notes (not part of the codebase)
+.todo_*.md
