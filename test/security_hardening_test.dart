@@ -95,6 +95,34 @@ void main() {
       );
     });
 
+    test('teacher_home_metrics deducts batched collections not just posted CU events', () {
+      // Regression: funds_in_hand must decrease as soon as collections are
+      // assigned to a dep_batch (principal custody), not only after the
+      // credit union deposit is Posted.
+      const migrationPath =
+          'supabase/migrations/20260511000300_fix_teacher_funds_in_hand_deduct_batched.sql';
+      final file = File(migrationPath);
+      expect(file.existsSync(), isTrue,
+          reason: 'Migration $migrationPath must exist.');
+
+      final sql = file.readAsStringSync();
+
+      // Extract only the function body between the $function$ delimiters so
+      // that comments explaining the old behaviour do not cause false failures.
+      final bodyMatch =
+          RegExp(r'\$function\$(.*?)\$function\$', dotAll: true).firstMatch(sql);
+      final functionBody = bodyMatch?.group(1) ?? sql;
+
+      expect(functionBody, contains('dep_item'),
+          reason: 'funds_in_hand calculation must join dep_item to detect batched collections.');
+      expect(functionBody, contains('dep_batch'),
+          reason: 'funds_in_hand calculation must check dep_batch status.');
+      expect(functionBody, contains("'CANCELLED'"),
+          reason: "Cancelled batches must be excluded so those collections return to funds_in_hand.");
+      expect(functionBody, isNot(contains('cu_dep_event_item')),
+          reason: 'The old cu_dep_event_item join must not be used for teacher funds_in_hand; use dep_item instead.');
+    });
+
     test('new Phase 2 RPCs are documented in migration files', () {
       const expectedRpcNames = [
         'teacher_withdrawals_list',
