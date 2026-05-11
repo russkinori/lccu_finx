@@ -328,7 +328,7 @@ class _TellerDashboardState extends State<TellerDashboard> {
       _moneyField('Funds Received', _fundsCtrl, onChanged: (_) => setState(() {})),
       const SizedBox(height: 12),
 
-      // ✅ RadioGroup-based batch selection (no groupValue/onChanged on each tile)
+      // RadioGroup-based batch selection (no groupValue/onChanged on each tile)
       _batchSelection(vm),
 
       const SizedBox(height: 12),
