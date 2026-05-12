@@ -8,7 +8,11 @@ import 'package:lccu_finx/core/widgets/widgets.dart';
 
 /// Page where users can request a password reset OTP
 class ForgotPasswordPage extends StatefulWidget {
-  const ForgotPasswordPage({super.key});
+  const ForgotPasswordPage({super.key, this.initialEmail});
+
+  /// If provided, pre-populates the email field (e.g. carried over from the
+  /// login screen when the user has already typed their email there).
+  final String? initialEmail;
 
   @override
   State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
@@ -18,6 +22,15 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    final pre = widget.initialEmail;
+    if (pre != null && pre.isNotEmpty) {
+      _emailController.text = pre;
+    }
+  }
 
   @override
   void dispose() {

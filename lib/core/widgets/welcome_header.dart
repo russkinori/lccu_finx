@@ -27,9 +27,12 @@ class WelcomeHeader extends StatelessWidget {
           style: TextStyle(letterSpacing: 1.2, color: Colors.black54),
         ),
         const SizedBox(height: 4),
-        Text(
-          name,
-          style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+        FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Text(
+            name,
+            style: const TextStyle(fontSize: 28, fontWeight: FontWeight.w700),
+          ),
         ),
         SizedBox(height: bottomSpacing),
       ],

@@ -25,6 +25,13 @@ class _VerifyOTPPasswordPageState extends State<VerifyOTPPasswordPage> {
   bool _obscureConfirm = true;
 
   @override
+  void initState() {
+    super.initState();
+    // Rebuild whenever the password changes so requirement checklist updates live.
+    _passwordController.addListener(() => setState(() {}));
+  }
+
+  @override
   void dispose() {
     _otpController.dispose();
     _passwordController.dispose();
@@ -115,7 +122,11 @@ class _VerifyOTPPasswordPageState extends State<VerifyOTPPasswordPage> {
                         onFieldSubmitted: (_) =>
                             FocusScope.of(context).nextFocus(),
                       ),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 8),
+                      _PasswordRequirements(
+                        password: _passwordController.text,
+                      ),
+                      const SizedBox(height: 8),
                       PillLabeledTextField(
                         label: 'Confirm',
                         controller: _confirmPasswordController,
@@ -211,13 +222,11 @@ class _VerifyOTPPasswordPageState extends State<VerifyOTPPasswordPage> {
       return;
     }
 
-    if (password.length < 8 ||
-        !RegExp(r'[A-Za-z]').hasMatch(password) ||
-        !RegExp(r'[0-9]').hasMatch(password)) {
+    if (!_PasswordRequirements.isValid(password)) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(
-            'Password must be at least 8 characters and contain a letter and a number',
+            'Password does not meet all requirements. Please check the checklist above.',
           ),
         ),
       );
@@ -245,13 +254,17 @@ class _VerifyOTPPasswordPageState extends State<VerifyOTPPasswordPage> {
     setState(() => _isLoading = false);
 
     if (success) {
+      // Sign out the OTP-created session so the user starts fresh with their
+      // new password. This prevents the need to restart the app.
+      await AuthScope.of(context, listen: false).signOut();
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Password reset successful! Please log in.'),
+          content: Text('Password reset successful! Please log in with your new password.'),
           backgroundColor: Colors.green,
         ),
       );
-      // Navigate back to login
+      // Navigate back to login, clearing the reset flow from the stack.
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (context) => const LoginPage()),
         (route) => false,
@@ -264,5 +277,77 @@ class _VerifyOTPPasswordPageState extends State<VerifyOTPPasswordPage> {
         ),
       );
     }
+  }
+}
+
+/// Discreet password requirements checklist that updates live as the user types.
+class _PasswordRequirements extends StatelessWidget {
+  const _PasswordRequirements({required this.password});
+
+  final String password;
+
+  static bool _meetsLength(String p) => p.length >= 8;
+  static bool _meetsUpper(String p) => RegExp(r'[A-Z]').hasMatch(p);
+  static bool _meetsLower(String p) => RegExp(r'[a-z]').hasMatch(p);
+  static bool _meetsNumber(String p) => RegExp(r'[0-9]').hasMatch(p);
+  static bool _meetsSpecial(String p) =>
+      RegExp(r'[!@#\$%^&*()\-_=+\[\]{};:"\\|,.<>?/~`]').hasMatch(p);
+
+  /// Returns true only when every requirement is satisfied.
+  static bool isValid(String p) =>
+      _meetsLength(p) &&
+      _meetsUpper(p) &&
+      _meetsLower(p) &&
+      _meetsNumber(p) &&
+      _meetsSpecial(p);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.grey[50],
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: Colors.grey[300]!),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Password requirements:',
+            style: TextStyle(fontSize: 11, color: Colors.black54),
+          ),
+          const SizedBox(height: 4),
+          _req('At least 8 characters', _meetsLength(password)),
+          _req('Uppercase letter (A–Z)', _meetsUpper(password)),
+          _req('Lowercase letter (a–z)', _meetsLower(password)),
+          _req('Number (0–9)', _meetsNumber(password)),
+          _req('Special character (e.g. !@#\$)', _meetsSpecial(password)),
+        ],
+      ),
+    );
+  }
+
+  Widget _req(String label, bool met) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      child: Row(
+        children: [
+          Icon(
+            met ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
+            size: 13,
+            color: met ? Colors.green[700] : Colors.grey[400],
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 11,
+              color: met ? Colors.green[700] : Colors.black45,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

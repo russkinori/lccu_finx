@@ -31,24 +31,34 @@ class GradientButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Use a fixed width but only a *minimum* height so the button can grow
+    // when system text scaling causes the label to be taller than the default
+    // fixed height (particularly noticeable on iPads with large text settings).
     return SizedBox(
       width: width,
-      height: height,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: gradient,
-          borderRadius: BorderRadius.circular(AppDimensions.radiusXLarge),
-          boxShadow: AppShadows.defaultShadow,
-        ),
-        child: ElevatedButton(
-          onPressed: onPressed,
-          style: AppTheme.transparentButtonStyle.copyWith(
-            backgroundColor:
-                disabledBackgroundColor != null && onPressed == null
-                ? WidgetStateProperty.all(disabledBackgroundColor)
-                : null,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: height),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: gradient,
+            borderRadius: BorderRadius.circular(AppDimensions.radiusXLarge),
+            boxShadow: AppShadows.defaultShadow,
           ),
-          child: Center(child: child),
+          child: ElevatedButton(
+            onPressed: onPressed,
+            style: AppTheme.transparentButtonStyle.copyWith(
+              backgroundColor:
+                  disabledBackgroundColor != null && onPressed == null
+                  ? WidgetStateProperty.all(disabledBackgroundColor)
+                  : null,
+              // Explicit vertical padding ensures the label always has room
+              // regardless of how tall the text renders at the device's scale.
+              padding: WidgetStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              ),
+            ),
+            child: Center(child: child),
+          ),
         ),
       ),
     );

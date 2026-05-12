@@ -65,9 +65,12 @@ class _AdminHomeState extends State<AdminHome> {
               children: [
                 const Align(
                   alignment: Alignment.center,
-                  child: Text(
-                    'Administration Overview',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Administration Overview',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ),
                 // Refresh action has been moved to the AppBar via

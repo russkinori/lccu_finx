@@ -206,7 +206,9 @@ class _LoginFormState extends State<LoginForm> {
                       onPressed: () {
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const ForgotPasswordPage(),
+                            builder: (context) => ForgotPasswordPage(
+                              initialEmail: _email.text.trim(),
+                            ),
                           ),
                         );
                       },
