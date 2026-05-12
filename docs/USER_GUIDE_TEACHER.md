@@ -26,6 +26,16 @@ LCCU FinX is a school-based savings app that allows teachers to collect weekly s
 2. Enter your email and tap **Send Code**.
 3. Enter the code emailed to you and set a new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Your Home Screen
@@ -37,8 +47,8 @@ LCCU FinX is a school-based savings app that allows teachers to collect weekly s
 | **Class dropdown** | Filter all figures and lists to a specific class (or leave on ALL) |
 | **Student dropdown** | Filter down to a single student |
 | **Account Balance** | Sum of selected students' account balances |
-| **Withdrawal Request card** | Your most recent pending withdrawal request from students |
-| **Transactions button** | Opens full transaction history |
+| **Withdrawal Request card** | Your most recent pending withdrawal request from students — **tap to view all requests** |
+| **Transactions button** | Opens the **Transaction History Dashboard** (`teacher_dash.dart`) with class/student filters |
 | **Submit Deposit button** | Opens the deposit submission form |
 
 ---
@@ -82,12 +92,15 @@ Tap the yellow **Transactions** button to open the **Transaction History** scree
 
 ## Handling Student Withdrawal Requests
 
-When a student submits a withdrawal request and their guardian approves it, the request appears in your **Withdrawal Request** card with the status **Approved**.
+The **Withdrawal Request** card on your home screen shows the most recent request. Tap the card to open the **All Withdrawal Requests** sheet, which lists every pending and recently processed request from students in your class.
+
+When a student submits a withdrawal request and their guardian approves it, the request appears with the status **Approved**.
 
 To process an approved withdrawal:
-1. Tap the request card to view the details.
-2. Disburse the cash amount to the student in person.
-3. Tap the specific request to mark it as completed inside the dashboard view.
+1. Tap the **Withdrawal Request** card to open the full request list.
+2. Locate the request with status **Approved**.
+3. Disburse the cash amount to the student in person.
+4. Tap the specific request to mark it as completed.
 
 > After completion the amount will be reflected in the **Funds In-Hand** figure and the student's account balance and transactions.
 
@@ -101,6 +114,14 @@ On the home or transaction screen:
 - Use the **Class** dropdown to see aggregate totals for a class.
 - Use the **Student** dropdown to focus on one student.
 - The **Account Balance** pill updates to reflect the selected scope.
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. Tap the **refresh icon** (↺) next to the bell to manually reload the list. You will be notified about key account activity relevant to your class.
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** to clear all at once.
 
 ---
 

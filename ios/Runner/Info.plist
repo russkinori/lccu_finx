@@ -28,10 +28,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>io.supabase.lccu_finx</string>
+			<string>io.supabase.lccufinx</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>io.supabase.lccu_finx</string>
+				<string>io.supabase.lccufinx</string>
 			</array>
 		</dict>
 	</array>
@@ -80,6 +80,8 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 </dict>
 </plist>

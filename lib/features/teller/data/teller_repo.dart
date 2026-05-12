@@ -5,8 +5,6 @@ import 'package:lccu_finx/app/id_name.dart';
 import 'package:lccu_finx/core/clients/rpc_client.dart';
 import 'package:lccu_finx/core/utils/app_logger.dart';
 
-final _sb = Supabase.instance.client;
-final RpcClient _rpc = RpcClient(_sb);
 
 class TellerSchoolRow {
   final String schoolId;
@@ -77,6 +75,7 @@ class DepositBatchRow {
   final double expectedAmount;
   final double depositedAmount;
   final double remainingAmount;
+  final String note;
 
   const DepositBatchRow({
     required this.batchId,
@@ -85,6 +84,7 @@ class DepositBatchRow {
     required this.expectedAmount,
     required this.depositedAmount,
     required this.remainingAmount,
+    this.note = '',
   });
 }
 
@@ -145,8 +145,10 @@ abstract class TellerRepository {
 class SupabaseTellerRepository implements TellerRepository {
   final SupabaseClient _sb;
   final CommonRepository _common;
+  final RpcClient _rpc;
 
-  SupabaseTellerRepository(this._sb, this._common);
+  SupabaseTellerRepository(this._sb, this._common)
+      : _rpc = RpcClient(_sb);
 
   @override
   Future<List<TellerSchoolRow>> getTellerHomeRows() async {
@@ -248,8 +250,9 @@ class SupabaseTellerRepository implements TellerRepository {
       final dep = (detail['deposited'] as num?)?.toDouble() ?? 0.0;
       final diff = (detail['difference'] as num?)?.toDouble() ?? 0.0;
       return (due, dep, diff);
-    } catch (_) {
-      return (0.0, 0.0, 0.0);
+    } catch (e) {
+      appLogError(e);
+      rethrow;
     }
   }
 
@@ -362,6 +365,7 @@ class SupabaseTellerRepository implements TellerRepository {
                 (row['deposited_amount'] as num?)?.toDouble() ?? 0.0,
             remainingAmount:
                 (row['remaining_amount'] as num?)?.toDouble() ?? 0.0,
+            note: (row['note'] as String?) ?? '',
           ),
         );
       }
@@ -403,6 +407,7 @@ class SupabaseTellerRepository implements TellerRepository {
         depositedAmount:
             (matched['deposited_amount'] as num?)?.toDouble() ?? 0.0,
         remainingAmount: remaining,
+        note: (matched['note'] as String?) ?? '',
       );
     } catch (e) {
       appLogError(e);
@@ -422,56 +427,19 @@ class SupabaseTellerRepository implements TellerRepository {
     final targets = batchIds ?? [];
 
     if (targets.isNotEmpty) {
-      final rows = await _rpc.list(
-        'teller_pending_deposit_batches',
-        params: {'p_school_id': schoolId},
+      // Delegate allocation to a single server-side function so all
+      // per-batch inserts execute within one PostgreSQL transaction.
+      // A failure on any batch automatically rolls back the entire deposit.
+      await _sb.rpc(
+        'teller_confirm_multi_batch_deposit',
+        params: {
+          'p_school_id': schoolId,
+          'p_batch_ids': targets,
+          'p_amount': amount,
+          'p_teacher_id': teacherId,
+          'p_note': notes,
+        },
       );
-
-      final batchRows = rows
-          .map((row) {
-            final remaining =
-                (row['remaining_amount'] as num?)?.toDouble() ??
-                (row['deposit_due'] as num?)?.toDouble() ??
-                0.0;
-            return {
-              'batch_id': row['batch_id'] as String?,
-              'remaining': remaining,
-            };
-          })
-          .where((m) => m['batch_id'] != null && targets.contains(m['batch_id']))
-          .toList()
-          ..sort(
-            (a, b) =>
-                a['batch_id'].toString().compareTo(b['batch_id'].toString()),
-          );
-
-      double remaining = amount;
-      for (final b in batchRows) {
-        if (remaining <= 0) break;
-        final bid = b['batch_id'] as String;
-        final avail = b['remaining'] as double;
-        if (avail <= 0) continue;
-        final apply = remaining <= avail ? remaining : avail;
-
-        await _sb.rpc(
-          'teller_post_school_deposit_event',
-          params: {
-            'p_batch_id': bid,
-            'p_amount': apply,
-            'p_deposited_by_teacher_id': teacherId,
-            'p_note': notes,
-          },
-        );
-
-        remaining -= apply;
-      }
-
-      if (remaining > 0) {
-        throw Exception(
-          'Unable to allocate full deposit amount across selected batches. Unallocated: $remaining',
-        );
-      }
-
       return;
     }
 

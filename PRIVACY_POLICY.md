@@ -1,6 +1,6 @@
 # Privacy Policy
 
-**Last Updated: May 7, 2026**
+**Last Updated: May 8, 2026**
 
 ## 1. Introduction
 
@@ -84,7 +84,7 @@ We may share information with trusted third parties who assist us in:
 - Analytics and performance monitoring
 - Technical support
 
-These providers are contractually obligated to protect your information and use it only for specified purposes.
+Our primary infrastructure provider, Supabase Inc., acts as a **data processor** under a formal Data Processing Agreement (DPA) that governs its handling of your information on our behalf. All other providers are similarly contractually obligated to protect your information and use it only for the specified purposes.
 
 ### 4.3 Legal Requirements
 We may disclose information when required by law or to:
@@ -211,11 +211,13 @@ In delivering the student savings programme, LCCU applies practices consistent w
 - **GDPR** and **UK GDPR** — for users in the European Economic Area or United Kingdom, including the principle of data protection by design and by default for children
 - **Local data protection regulations** applicable in the jurisdictions where LCCU operates
 
-Where any of the above standards impose stricter requirements than this policy, those stricter requirements will apply.
+Where any applicable standard imposes stricter requirements than this policy, those stricter requirements will apply.
 
 ## 9. International Data Transfers
 
-Your information may be transferred to and processed in countries other than your country of residence. We ensure appropriate safeguards are in place to protect your information in accordance with this Privacy Policy.
+The App is operated from Saint Lucia and is intended for use within Saint Lucia. To deliver the App, LCCU uses Supabase Inc. as its infrastructure provider. Supabase may store and process your information on servers located in the **United States** and **Singapore**.
+
+This cross-border processing is governed by our Data Processing Agreement with Supabase, which requires Supabase to implement appropriate technical and organisational measures to protect your information and to process it only on our documented instructions. By using the App, you acknowledge that your information may be transferred to and processed in these countries.
 
 ## 10. Third-Party Links
 
@@ -230,10 +232,13 @@ We may update this Privacy Policy from time to time. Changes will be posted with
 For questions, concerns, or requests regarding this Privacy Policy or your personal information, please contact:
 
 **Laborie Co-operative Credit Union Ltd**  
-Privacy Officer  
-Email: privacy@lccufinx.com  
-Phone: [Contact Number]  
-Address: [Physical Address]
+Compliance Officer  
+Email: schoolthrift@mylaboriecu.com  
+Phone: +1-758-459-6900  
+Address: Allan Louisy Street
+Laborie
+Saint Lucia, W.I.
+LC11 101
 
 ## 13. Regulatory Compliance
 
@@ -250,8 +255,12 @@ Where student data is involved, LCCU applies the most protective standard availa
 
 ## 14. Your Consent
 
-By using LCCU FinX, you acknowledge that you have read and understood this Privacy Policy and consent to the collection, use, and disclosure of your information as described herein.
+Upon first accessing the App, you will be presented with this Privacy Policy and asked to confirm that you have read and understood it. Continued use of the App constitutes your ongoing consent to the collection, use, and disclosure of your information as described herein.
+
+For student accounts, consent is provided by the school and/or guardian as described in Section 8.2. Students themselves do not provide primary consent for account creation.
+
+You may withdraw consent at any time by contacting the Compliance Officer (see Section 12). Withdrawal of consent may require deactivation of your account.
 
 ---
 
-**Effective Date: May 7, 2026**
+**Effective Date: May 8, 2026**

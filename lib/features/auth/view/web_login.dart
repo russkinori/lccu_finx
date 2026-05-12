@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lccu_finx/features/auth/viewmodel/auth_vm.dart';
 import 'package:lccu_finx/app/app_utils.dart';
 import 'package:lccu_finx/features/legal/view/terms_of_use.dart';
@@ -27,12 +27,61 @@ class _WebLoginState extends State<WebLogin> {
   DateTime? _lockedUntil;
   Timer? _lockTimer;
 
+  static const _prefKeyLockedUntil = 'login_locked_until_ms';
+  static const _prefKeyFailedAttempts = 'login_failed_attempts';
+
+  @override
+  void initState() {
+    super.initState();
+    _restoreLockoutState();
+  }
+
   @override
   void dispose() {
     _email.dispose();
     _password.dispose();
     _lockTimer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _restoreLockoutState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final lockedUntilMs = prefs.getInt(_prefKeyLockedUntil);
+    final attempts = prefs.getInt(_prefKeyFailedAttempts) ?? 0;
+    if (!mounted) return;
+    if (lockedUntilMs != null) {
+      final lockedUntil = DateTime.fromMillisecondsSinceEpoch(lockedUntilMs);
+      final remaining = lockedUntil.difference(DateTime.now()).inSeconds;
+      if (remaining > 0) {
+        setState(() {
+          _failedAttempts = attempts;
+          _lockedUntil = lockedUntil;
+          _lockSecondsLeft = remaining;
+        });
+        _startLockTimer();
+        return;
+      }
+    }
+    if (attempts > 0) {
+      setState(() => _failedAttempts = attempts);
+    }
+  }
+
+  void _startLockTimer() {
+    _lockTimer?.cancel();
+    _lockTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (!mounted) { timer.cancel(); return; }
+      final remaining = _lockedUntil!.difference(DateTime.now()).inSeconds;
+      setState(() { _lockSecondsLeft = remaining > 0 ? remaining : 0; });
+      if (_lockSecondsLeft == 0) {
+        timer.cancel();
+        setState(() { _failedAttempts = 0; });
+        SharedPreferences.getInstance().then((p) {
+          p.remove(_prefKeyLockedUntil);
+          p.remove(_prefKeyFailedAttempts);
+        });
+      }
+    });
   }
 
   @override
@@ -202,6 +251,9 @@ class _WebLoginState extends State<WebLogin> {
     try {
       await authVm.signIn(_email.text.trim(), _password.text);
       if (mounted) setState(() { _failedAttempts = 0; _lockSecondsLeft = 0; });
+      final prefs = await SharedPreferences.getInstance();
+      prefs.remove(_prefKeyLockedUntil);
+      prefs.remove(_prefKeyFailedAttempts);
     } catch (e) {
       if (mounted) {
         setState(() {
@@ -209,16 +261,15 @@ class _WebLoginState extends State<WebLogin> {
           if (_failedAttempts >= 5) {
             _lockSecondsLeft = 30;
             _lockedUntil = DateTime.now().add(const Duration(seconds: 30));
-            _lockTimer?.cancel();
-            _lockTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
-              if (!mounted) { timer.cancel(); return; }
-              final remaining = _lockedUntil!.difference(DateTime.now()).inSeconds;
-              setState(() { _lockSecondsLeft = remaining > 0 ? remaining : 0; });
-              if (_lockSecondsLeft == 0) {
-                timer.cancel();
-                setState(() { _failedAttempts = 0; });
-              }
+            SharedPreferences.getInstance().then((p) {
+              p.setInt(_prefKeyLockedUntil, _lockedUntil!.millisecondsSinceEpoch);
+              p.setInt(_prefKeyFailedAttempts, _failedAttempts);
             });
+            _startLockTimer();
+          } else {
+            SharedPreferences.getInstance().then(
+              (p) => p.setInt(_prefKeyFailedAttempts, _failedAttempts),
+            );
           }
         });
       }

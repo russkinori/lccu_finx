@@ -1,7 +1,7 @@
 # OWASP Mobile Top 10 (2016) Security Audit — Reassessment
 ## LCCU FinX — Flutter Application
 
-**Audit Date:** 7 May 2026  
+**Audit Date:** 7 May 2026 | **Last Updated:** 9 May 2026  
 **Scope:** Client-side Flutter source (`lib/`, `android/`, `pubspec.yaml`, build scripts)
 
 ---
@@ -13,7 +13,7 @@
 | M1 | Improper Platform Usage | Low (autoVerify added; needs assetlinks.json hosting) |
 | M2 | Insecure Data Storage | Pass (CSV password column removed) |
 | M3 | Insecure Communication | Pass (HTTPS enforced; pinning = optional) |
-| M4 | Insecure Authentication | Pass (PKCE, lockouts, complexity checks) |
+| M4 | Insecure Authentication | Pass (PKCE, lockouts, complexity checks, consent gate) |
 | M5 | Insufficient Cryptography | Pass (no custom crypto; obfuscation script added) |
 | M6 | Insecure Authorization | Pass (RLS + server-side role resolution) |
 | M7 | Client Code Quality | Pass (debug prints guarded) |
@@ -33,7 +33,7 @@
 
 - M3 — Insecure Communication: app enforces HTTPS; `android:usesCleartextTraffic="false"` already set. Certificate pinning is not implemented (documented residual risk).
 
-- M4 — Insecure Authentication: PKCE enabled; client-side brute-force protections were added to both mobile and web login UIs (5 failures → 30s lockout). Password complexity checks (min 8, letter + number) are enforced on reset/set screens. User sign-out uses global scope to invalidate server refresh tokens.
+- M4 — Insecure Authentication: PKCE enabled; client-side brute-force protections were added to both mobile and web login UIs (5 failures → 30s lockout). Password complexity checks (min 8, letter + number) are enforced on reset/set screens. User sign-out uses global scope to invalidate server refresh tokens. A first-login consent gate (`ConsentScreen`) requires explicit acceptance of the Privacy Policy and Terms of Use before access is granted; acceptance is persisted via `SharedPreferences` with a versioned key (`privacy_policy_accepted_v1`) to enable mandatory re-acceptance on material policy changes.
 
 - M5 — Insufficient Cryptography: no custom crypto found. A release build script (`scripts/build_release.sh`) was added using `--obfuscate --split-debug-info` to harden binaries and move debug symbols off-device.
 
@@ -51,14 +51,17 @@
 
 ## Changes applied during reassessment (file list)
 
-- `lib/auth_gate.dart`: root/jailbreak detection (flutter_jailbreak_detection) was added then subsequently removed (commit ba3ca8a) — net change: no jailbreak detection in current codebase.
-- `lib/login_page.dart`: brute-force lockout, email format validator, lockout timer cleanup in `dispose()`.
-- `lib/web_login.dart`: added email validation and brute-force lockout (web parity with mobile).
-- `lib/settings.dart`: `Version` ListTile gated to admin users only.
-- `lib/principal_reconcile.dart`: wrapped debug prints with `kDebugMode`.
+- `lib/features/auth/view/auth_gate.dart`: root/jailbreak detection (flutter_jailbreak_detection) was added then subsequently removed (commit ba3ca8a) — net change: no jailbreak detection in current codebase.
+- `lib/features/auth/view/login_page.dart`: brute-force lockout, email format validator, lockout timer cleanup in `dispose()`.
+- `lib/features/auth/view/web_login.dart`: added email validation and brute-force lockout (web parity with mobile).
+- `lib/features/settings/view/settings.dart`: `Version` ListTile gated to admin users only.
+- `lib/features/principal/view/principal_reconcile.dart`: wrapped debug prints with `kDebugMode`.
 - `android/app/src/main/AndroidManifest.xml`: added `android:autoVerify="true"` to the deep link intent-filter.
 - `scripts/build_release.sh`: new release script using `--obfuscate --split-debug-info`.
 - `.gitignore`: added `env.json` and `build/debug-info/` entries.
+- `lib/features/legal/view/consent_screen.dart`: non-dismissible first-login privacy & terms consent gate (added 8 May 2026).
+- `lib/features/legal/service/consent_service.dart`: persists consent acceptance in `SharedPreferences` with versioned key; bumping key version forces re-acceptance on material policy changes (added 8 May 2026).
+- `lib/features/notifications/`: in-app notification inbox and bell widget for all mobile roles; `NotificationScreen` receives `NotificationVm` directly to avoid `InheritedWidget` scope loss across `Navigator` route boundaries (added 8–9 May 2026).
 
 ---
 

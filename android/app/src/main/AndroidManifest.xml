@@ -29,7 +29,7 @@
             
             <!-- Deep link for Supabase password reset.
                 This uses a private custom URL scheme:
-                io.supabase.lccu_finx://reset-password
+                io.supabase.lccufinx://reset-password
 
                 This is not an Android App Link because it does not use an HTTPS domain.
                 Do not use android:autoVerify here; domain verification only applies to
@@ -39,7 +39,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
-                    android:scheme="io.supabase.lccu_finx"
+                    android:scheme="io.supabase.lccufinx"
                     android:host="reset-password" />
             </intent-filter>
         </activity>

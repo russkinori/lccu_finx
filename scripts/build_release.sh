@@ -25,6 +25,7 @@
 #   ./scripts/build_release.sh android    # Android AAB only
 #   ./scripts/build_release.sh ios        # iOS IPA only
 #   ./scripts/build_release.sh apk        # Android APK only, for local testing
+#   ./scripts/build_release.sh web        # Web release only (output: build/web/)
 #   ./scripts/build_release.sh both       # Android AAB and iOS IPA
 # -------------------------------------------------------------------------
 
@@ -82,6 +83,18 @@ build_ios_ipa() {
   echo "✓ iOS IPA: build/ios/ipa/"
 }
 
+build_web() {
+  echo "→ Building web release..."
+  # Web builds do not support --obfuscate or --split-debug-info.
+  # Credentials are still injected via --dart-define-from-file.
+  flutter build web --release \
+    --dart-define-from-file="$DEFINES_FILE" \
+    --base-href "/"
+  echo "✓ Web output: build/web/"
+  echo "  Deploy the contents of build/web/ to any static hosting provider."
+  echo "  For client-side routing, configure your host to rewrite all paths to /index.html."
+}
+
 check_flutter_available
 check_defines_file
 
@@ -98,6 +111,10 @@ case "$TARGET" in
     build_android_apk
     ;;
 
+  web)
+    build_web
+    ;;
+
   both)
     build_android_aab
     build_ios_ipa
@@ -111,6 +128,7 @@ case "$TARGET" in
     echo "  ./scripts/build_release.sh android    # Android AAB only"
     echo "  ./scripts/build_release.sh ios        # iOS IPA only"
     echo "  ./scripts/build_release.sh apk        # Android APK only, for local testing"
+    echo "  ./scripts/build_release.sh web        # Web release only (output: build/web/)"
     echo "  ./scripts/build_release.sh both       # Android AAB and iOS IPA"
     exit 1
     ;;

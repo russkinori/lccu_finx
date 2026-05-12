@@ -26,6 +26,16 @@ LCCU FinX gives school principals a consolidated view of all teacher collections
 2. Enter your email and tap **Send Code**.
 3. Enter the verification code from your email, then set a new password.
 
+### First-Time Use — Privacy Consent
+
+The first time you sign in, the app shows a **Privacy & Terms** screen summarising what data LCCU holds and why. You must:
+
+1. Review the summary (tap **Privacy Policy** or **Terms of Use** to read the full documents).
+2. Tick the acknowledgement checkbox.
+3. Tap **Accept & Continue**.
+
+This screen only appears once. On all future sign-ins you go straight to your home screen.
+
 ---
 
 ## Your Home Screen
@@ -36,9 +46,9 @@ LCCU FinX gives school principals a consolidated view of all teacher collections
 | **Account Balance** | Total credit union account balance for your school |
 | **Funds On-Site** | Cash currently held at the school (collected but not yet deposited) |
 | **Deposited Funds** | Total amount already deposited and confirmed by the credit union teller |
-| **School Deposit Details** | Summary: Deposit Due / Deposited / Difference for the whole school |
+| **School Deposit Details** | Summary: Deposit Due / Deposited / Difference for the whole school — **tap to view full School Deposit History** |
 | **Teacher dropdown** | Filter deposit details to a specific teacher |
-| **Teacher Deposit Details** | That teacher's Deposit Due / Deposited / Difference |
+| **Teacher Deposit Details** | That teacher's Deposit Due / Deposited / Difference — **tap to view that teacher's Deposit History** |
 | **Transaction History button** | Opens student transaction records |
 
 ---
@@ -59,7 +69,7 @@ Any difference shown in **red** indicates an outstanding amount not yet deposite
 
 Tap the yellow **Transaction History** button to open the full dashboard.
 
-- Filter records by **Teacher**, **Class**, **Student** or **Period** using the dropdowns.
+- Filter records by **Teacher**, **Class**, or **Student** using the dropdowns.
 - Each row shows: Date, Teacher who recorded the transaction, Transaction type, Amount.
 - Tap **Export** (top-right) to download records as a CSV file for your records or the school's finance office.
 
@@ -88,8 +98,19 @@ The deposit batch is sent to the credit union teller as a pending deposit. Once 
 
 ## Monitoring Individual Teachers
 
-1. The **Teacher Deposit Details** card updates to show that teacher's Deposit Due, Deposited, and Difference.
-2. Tap the card for a history of the credit union deposits made by all teachers.
+1. Use the **Teacher dropdown** to select a teacher. The **Teacher Deposit Details** card updates to show that teacher's Deposit Due, Deposited, and Difference.
+2. Tap the **Teacher Deposit Details** card to open a history dialog showing individual deposit records for the selected teacher (or all teachers when "All Teachers" is selected). Each record shows: Amount, Week range (start – end date).
+3. Tap the **School Deposit Details** card to open a **School Deposit History** dialog showing all historical school-level deposits confirmed by the teller. Each record shows: Amount, Date, and any discrepancy or notes.
+
+Close either history dialog with the **✕** button in the top-right corner.
+
+---
+
+## Notifications
+
+Tap the **bell icon** in the top-right of the app bar to open your **Notifications inbox**. You will be notified about key account activity relevant to your school.
+
+Unread notifications are highlighted in blue and show a red count badge on the bell. Tap any notification to mark it as read. Tap **Mark all read** to clear all at once.
 
 ---
 

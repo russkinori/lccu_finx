@@ -201,7 +201,7 @@ class AuthVm extends ChangeNotifier {
       // Note: The redirect URL must match exactly what's configured in Supabase dashboard
       await _client.auth.resetPasswordForEmail(
         email,
-        redirectTo: 'io.supabase.lccu_finx://reset-password',
+        redirectTo: 'io.supabase.lccufinx://reset-password',
       );
       appLog('AuthVm: password reset email sent');
       return true;

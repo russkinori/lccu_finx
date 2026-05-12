@@ -6,6 +6,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:lccu_finx/features/admin/data/admin_repo.dart';
 import 'package:lccu_finx/core/utils/app_logger.dart';
 import 'package:lccu_finx/features/auth/viewmodel/auth_vm.dart';
@@ -113,13 +114,20 @@ Future<void> _tapLogin(WidgetTester tester, {required int count}) async {
 // ── Tests ──────────────────────────────────────────────────────────────────
 
 void main() {
-  setUpAll(() => setAppLoggerEnabledForTesting(false));
+  setUpAll(() {
+    setAppLoggerEnabledForTesting(false);
+  });
   tearDownAll(() => setAppLoggerEnabledForTesting(true));
 
   group('LoginForm brute-force lockout', () {
     late AuthVm authVm;
 
-    setUp(() => authVm = _makeAuthVm(_FailingGoTrueClient()));
+    setUp(() {
+      // Reset prefs before each test so lockout state from a previous test
+      // does not bleed into the next one via _restoreLockoutState().
+      SharedPreferences.setMockInitialValues({});
+      authVm = _makeAuthVm(_FailingGoTrueClient());
+    });
     tearDown(() => authVm.dispose());
 
     testWidgets('no lockout message is shown before 5 failures', (tester) async {
@@ -225,6 +233,7 @@ void main() {
     testWidgets(
       'successful sign-in after 4 failures does not trigger lockout',
       (tester) async {
+        SharedPreferences.setMockInitialValues({});
         // Client fails the first 4 calls, succeeds on the 5th.
         final client = _FailThenSucceedGoTrueClient(failCount: 4);
         final vm = _makeAuthVm(client);

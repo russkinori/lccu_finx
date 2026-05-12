@@ -17,9 +17,13 @@ Future<void> main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       appLog('main: Flutter binding initialized');
-      // Lock the app to portrait only. This prevents rotation into landscape.
+      // Lock to portrait only. portraitDown (upside-down) is included so that
+      // tablets — which commonly mount in either portrait direction — work
+      // correctly. On phones that don't support upside-down, the OS ignores it.
+      // iOS handles phone vs tablet separately via Info.plist (~ipad key).
       await SystemChrome.setPreferredOrientations([
         DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
       ]);
       await initSupabase();
       appLog('main: Supabase initialized');

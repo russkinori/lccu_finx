@@ -39,6 +39,7 @@ graph TB
             TELLERROUTER[TellerRouter\nTeller routes]
             DASHNAV[DashboardShell\nMobile drawer]
             WEBNAV[WebShell\nSidebar ≥900px]
+            SETTINGS[SettingsAboutPage\nAll roles]
         end
     end
 
@@ -100,6 +101,7 @@ graph TB
         EP1[share_plus\nCSV export]
         EP2[file_picker\nCSV import]
         EP3[url_launcher\nPolicy links]
+        EP4[shared_preferences\nConsent persistence]
     end
 
     SCREENS --> EXTERNAL
@@ -115,6 +117,7 @@ graph TB
 | **RpcClient** | Thin wrapper around `supabase.rpc()` with typed list/single helpers |
 | **AdminClient** | Invokes the `user-admin` Edge Function for privileged user management |
 | **AppRouter / TellerRouter** | `Navigator` stacks with named routes for admin and teller flows |
+| **SettingsAboutPage** | In-app Settings screen (version — admin only, account info, legal docs, sign out) accessible from all roles |
 | **DashboardShell / WebShell** | Responsive layout: hamburger drawer (mobile) vs. sidebar (web ≥ 900 px) |
 | **Supabase Auth (PKCE)** | Passwordless-safe OAuth-style flow; email/password login; OTP password reset |
 | **Edge Function: user-admin** | Server-side privileged admin operations requiring `service_role` key (never exposed to client) |

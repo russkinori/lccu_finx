@@ -31,8 +31,9 @@ As an administrator you are responsible for:
 8. [Reports](#8-reports)  
 9. [Settings](#9-settings)  
 10. [Database Management (Supabase)](#10-database-management-supabase)  
-11. [Common Administrative Tasks](#11-common-administrative-tasks)  
-12. [Troubleshooting](#12-troubleshooting)  
+11. [Reference Data Setup (First-Time / New Environment)](#11-reference-data-setup-first-time--new-environment)  
+12. [Common Administrative Tasks](#12-common-administrative-tasks)  
+13. [Troubleshooting](#13-troubleshooting)  
 
 ---
 
@@ -86,7 +87,7 @@ On wide screens the app uses a **side navigation drawer** (WebShell) with links:
 
 ### Mobile Layout
 
-On phones the app uses a **hamburger menu** (top-left). The same four sections are accessible via the drawer.
+On phones the app uses a **hamburger menu** (top-left). The same five sections are accessible via the drawer.
 
 ---
 
@@ -373,26 +374,192 @@ To inspect or modify these functions: **Supabase Dashboard → Database → Func
 ### Adding a New School
 
 1. In the app: currently schools must be added directly in the database.
-2. **Supabase Dashboard → Table Editor → schools**
-3. Insert a new row: `school_id` (UUID, auto-generated), `school_name`.
-4. Add classes for the school in the `classes` table referencing the new `school_id`.
+2. **Supabase Dashboard → Table Editor → school**
+3. Insert a new row: `school_id` (UUID, auto-generated), `name`, and optionally `Level` (level UUID for class filtering).
+4. Add a `school_acc` row to link the school to its credit union branch account.
 5. The new school will appear in the app's school dropdowns immediately.
 
 ### Adding a New Credit Union Branch
 
-1. **Supabase Dashboard → Table Editor → credit_unions**
-2. Insert: `branch_id` (UUID), `branch_name`, any other required fields.
+1. **Supabase Dashboard → Table Editor → cu_branch**
+2. Insert: `branch_id` (UUID, auto-generated), `branch` (branch name).
 3. The branch will appear in the Teller credit union dropdown immediately.
 
 ### Adding Guardian Types
 
-1. **Supabase Dashboard → Table Editor → guardian_types**
-2. Insert: `id` (UUID), `name` (e.g. "Mother", "Father", "Legal Guardian").
+1. **Supabase Dashboard → Table Editor → guardian_type**
+2. Insert: `type_id` (UUID, auto-generated), `name` (e.g. "Mother", "Father", "Legal Guardian").
 3. New types appear in the Guardian type dropdowns immediately.
 
 ---
 
-## 11. Common Administrative Tasks
+## 11. Reference Data Setup (First-Time / New Environment)
+
+Before creating any users through the app, several lookup tables and reference tables must be populated in the correct order. Without this data in place:
+
+- User creation will fail with `Role "X" not found in public.role`
+- Class and school dropdowns will be empty
+- Teller credit union dropdown will be empty
+- Transaction processing will raise `tx_type "DEPOSIT" not found`
+
+Run each block in **Supabase Dashboard → SQL Editor**.
+
+### Step 1 — Seed Lookup Tables _(system-level, done once)_
+
+```sql
+-- 1a. Roles — must match these names exactly (app matches case-insensitively)
+INSERT INTO public.role (role_name, description) VALUES
+  ('Admin',     'System administrator'),
+  ('Teacher',   'School teacher'),
+  ('Principal', 'School principal'),
+  ('Guardian',  'Student guardian'),
+  ('Student',   'Enrolled student'),
+  ('Teller',    'Credit union teller')
+ON CONFLICT (role_name) DO NOTHING;
+
+-- 1b. Transaction types (RPC functions raise an exception if these are missing)
+INSERT INTO public.tx_type (name) VALUES
+  ('DEPOSIT'),
+  ('WITHDRAWAL')
+ON CONFLICT (name) DO NOTHING;
+
+-- 1c. Transaction statuses
+INSERT INTO public.tx_stat (name) VALUES
+  ('PENDING'),
+  ('POSTED'),
+  ('APPROVED'),
+  ('FLAGGED')
+ON CONFLICT (name) DO NOTHING;
+
+-- 1d. Genders
+INSERT INTO public.gender (name) VALUES
+  ('Male'),
+  ('Female')
+ON CONFLICT (name) DO NOTHING;
+
+-- 1e. Titles
+-- Note: public.title has no unique constraint on "option".
+-- Check for existing rows first: SELECT * FROM public.title;
+INSERT INTO public.title (option) VALUES
+  ('Mr'),
+  ('Mrs'),
+  ('Ms'),
+  ('Dr'),
+  ('Rev');
+
+-- 1f. Guardian types
+INSERT INTO public.guardian_type (name) VALUES
+  ('Mother'),
+  ('Father'),
+  ('Legal Guardian'),
+  ('Grandparent'),
+  ('Other')
+ON CONFLICT (name) DO NOTHING;
+```
+
+### Step 2 — Create Classes _(shared pool)_
+
+Classes are stored in a shared pool and filtered to a school by the school's `Level` column. If a school has no level assigned, all classes appear for that school.
+
+```sql
+-- Optional: create levels first if you want per-school class filtering
+INSERT INTO public.level (level) VALUES
+  ('Primary'),
+  ('Secondary')
+ON CONFLICT DO NOTHING;
+
+-- Create the class pool
+-- Adjust names and levels to match the institution's grade structure.
+INSERT INTO public.class (name, level_id) VALUES
+  ('Grade 1', (SELECT level_id FROM public.level WHERE level = 'Primary'   LIMIT 1)),
+  ('Grade 2', (SELECT level_id FROM public.level WHERE level = 'Primary'   LIMIT 1)),
+  ('Grade 3', (SELECT level_id FROM public.level WHERE level = 'Primary'   LIMIT 1)),
+  ('Grade 4', (SELECT level_id FROM public.level WHERE level = 'Primary'   LIMIT 1)),
+  ('Grade 5', (SELECT level_id FROM public.level WHERE level = 'Primary'   LIMIT 1)),
+  ('Grade 6', (SELECT level_id FROM public.level WHERE level = 'Primary'   LIMIT 1)),
+  ('Form 1',  (SELECT level_id FROM public.level WHERE level = 'Secondary' LIMIT 1)),
+  ('Form 2',  (SELECT level_id FROM public.level WHERE level = 'Secondary' LIMIT 1)),
+  ('Form 3',  (SELECT level_id FROM public.level WHERE level = 'Secondary' LIMIT 1)),
+  ('Form 4',  (SELECT level_id FROM public.level WHERE level = 'Secondary' LIMIT 1)),
+  ('Form 5',  (SELECT level_id FROM public.level WHERE level = 'Secondary' LIMIT 1));
+```
+
+### Step 3 — Create Credit Union Branches
+
+Required before any teller account can be created.
+
+```sql
+INSERT INTO public.cu_branch (branch) VALUES
+  ('Laborie Branch');
+-- Repeat for each physical branch.
+-- address_id is optional; insert into public.address first if a full address is required.
+```
+
+### Step 4 — Create Schools
+
+Required before teacher, principal, or student accounts can be created.
+
+```sql
+-- Note: the column is "Level" (capital L) in the schema.
+INSERT INTO public.school (name, "Level") VALUES
+  (
+    'Laborie Primary',
+    (SELECT level_id FROM public.level WHERE level = 'Primary' LIMIT 1)
+  );
+-- Set "Level" to NULL if you are not using level-based class filtering.
+-- Repeat for each school.
+```
+
+### Step 5 — Create School Accounts
+
+Each school must have an account linked to a credit union branch before balance and deposit tracking will work.
+
+```sql
+INSERT INTO public.school_acc (account_number, school_id, branch_id, opening_bal, status)
+VALUES (
+  'SCH-001',
+  (SELECT school_id FROM public.school    WHERE name   = 'Laborie Primary' LIMIT 1),
+  (SELECT branch_id FROM public.cu_branch WHERE branch = 'Laborie Branch'  LIMIT 1),
+  0.00,
+  'ACTIVE'
+);
+-- Use the actual account number assigned by the credit union.
+```
+
+### Step 6 — (Optional) Set School Withdrawal Policies
+
+Controls whether all guardians must approve a withdrawal and the threshold above which requests are routed through the credit union.
+
+```sql
+INSERT INTO public.withdrawal_pol
+  (school_id, require_all_guardians, cash_threshold, cu_over_threshold)
+VALUES (
+  (SELECT school_id FROM public.school WHERE name = 'Laborie Primary' LIMIT 1),
+  false,   -- true = every linked guardian must approve; false = any one guardian
+  100,     -- TTD amount above which requests require credit union processing
+  true     -- true = route amounts over threshold through the credit union
+);
+```
+
+### First-Time Setup Checklist
+
+Before creating the first user through the app, confirm all of the following:
+
+- [ ] `public.role` has all 6 roles: Admin, Teacher, Principal, Guardian, Student, Teller
+- [ ] `public.tx_type` has at least `DEPOSIT` and `WITHDRAWAL`
+- [ ] `public.tx_stat` has at least `PENDING`, `POSTED`, `APPROVED`, and `FLAGGED`
+- [ ] `public.gender` is seeded
+- [ ] `public.title` is seeded (no duplicate rows)
+- [ ] `public.guardian_type` is seeded
+- [ ] At least one `public.cu_branch` row exists (required before teller creation)
+- [ ] At least one `public.school` row exists (required before teacher / principal / student creation)
+- [ ] At least one `public.class` row exists and is visible for the school's level
+- [ ] A `public.school_acc` row links the school to its credit union branch
+- [ ] A `public.withdrawal_pol` row exists for each school (if withdrawal approval rules apply)
+
+---
+
+## 12. Common Administrative Tasks
 
 ### New School Year / Student Roll-Over
 
@@ -431,7 +598,7 @@ To inspect or modify these functions: **Supabase Dashboard → Database → Func
 
 ---
 
-## 12. Troubleshooting
+## 13. Troubleshooting
 
 | Symptom | Likely Cause | Resolution |
 |---|---|---|
