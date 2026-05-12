@@ -87,10 +87,11 @@ The status changes to **Declined** and the child will see the request was declin
 
 ## Viewing Transaction History
 
-Tap the yellow **Transaction History** button to see a detailed record of all transactions across all your linked children. You can:
+Tap the yellow **Transaction History** button to open the full transaction dashboard. The dashboard shows:
 
-- Filter by child
-- See dates, amounts, and transaction types
+- A **Child** dropdown — select a specific child or leave on **All Children** to see activity for all linked children.
+- An **Account Balance** card showing the total account balance for the selected child (or combined balance for all children).
+- A transaction table with columns: Details, Transaction type, Amount.
 
 ---
 

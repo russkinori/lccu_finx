@@ -47,8 +47,8 @@ This screen only appears once. On all future sign-ins you go straight to your ho
 | **Class dropdown** | Filter all figures and lists to a specific class (or leave on ALL) |
 | **Student dropdown** | Filter down to a single student |
 | **Account Balance** | Sum of selected students' account balances |
-| **Withdrawal Request card** | Your most recent pending withdrawal request from students |
-| **Transactions button** | Opens full transaction history |
+| **Withdrawal Request card** | Your most recent pending withdrawal request from students — **tap to view all requests** |
+| **Transactions button** | Opens the **Transaction History Dashboard** (`teacher_dash.dart`) with class/student filters |
 | **Submit Deposit button** | Opens the deposit submission form |
 
 ---
@@ -92,12 +92,15 @@ Tap the yellow **Transactions** button to open the **Transaction History** scree
 
 ## Handling Student Withdrawal Requests
 
-When a student submits a withdrawal request and their guardian approves it, the request appears in your **Withdrawal Request** card with the status **Approved**.
+The **Withdrawal Request** card on your home screen shows the most recent request. Tap the card to open the **All Withdrawal Requests** sheet, which lists every pending and recently processed request from students in your class.
+
+When a student submits a withdrawal request and their guardian approves it, the request appears with the status **Approved**.
 
 To process an approved withdrawal:
-1. Tap the request card to view the details.
-2. Disburse the cash amount to the student in person.
-3. Tap the specific request to mark it as completed inside the dashboard view.
+1. Tap the **Withdrawal Request** card to open the full request list.
+2. Locate the request with status **Approved**.
+3. Disburse the cash amount to the student in person.
+4. Tap the specific request to mark it as completed.
 
 > After completion the amount will be reflected in the **Funds In-Hand** figure and the student's account balance and transactions.
 

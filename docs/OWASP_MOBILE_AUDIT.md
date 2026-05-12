@@ -51,11 +51,11 @@
 
 ## Changes applied during reassessment (file list)
 
-- `lib/auth_gate.dart`: root/jailbreak detection (flutter_jailbreak_detection) was added then subsequently removed (commit ba3ca8a) — net change: no jailbreak detection in current codebase.
-- `lib/login_page.dart`: brute-force lockout, email format validator, lockout timer cleanup in `dispose()`.
-- `lib/web_login.dart`: added email validation and brute-force lockout (web parity with mobile).
-- `lib/settings.dart`: `Version` ListTile gated to admin users only.
-- `lib/principal_reconcile.dart`: wrapped debug prints with `kDebugMode`.
+- `lib/features/auth/view/auth_gate.dart`: root/jailbreak detection (flutter_jailbreak_detection) was added then subsequently removed (commit ba3ca8a) — net change: no jailbreak detection in current codebase.
+- `lib/features/auth/view/login_page.dart`: brute-force lockout, email format validator, lockout timer cleanup in `dispose()`.
+- `lib/features/auth/view/web_login.dart`: added email validation and brute-force lockout (web parity with mobile).
+- `lib/features/settings/view/settings.dart`: `Version` ListTile gated to admin users only.
+- `lib/features/principal/view/principal_reconcile.dart`: wrapped debug prints with `kDebugMode`.
 - `android/app/src/main/AndroidManifest.xml`: added `android:autoVerify="true"` to the deep link intent-filter.
 - `scripts/build_release.sh`: new release script using `--obfuscate --split-debug-info`.
 - `.gitignore`: added `env.json` and `build/debug-info/` entries.
